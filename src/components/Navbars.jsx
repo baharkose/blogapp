@@ -165,7 +165,7 @@ function Navbars() {
 
               {!user &&
                
-                  (<Link to="login">
+                  (<Link to="auth">
                     <MenuItem onClick={handleCloseUserMenu}>
                       <Typography textAlign="center">Login</Typography>
                     </MenuItem>

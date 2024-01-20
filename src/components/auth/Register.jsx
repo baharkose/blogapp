@@ -25,12 +25,6 @@ const Register = () => {
           p: 2,
         }}
       >
-        <Grid item xs={12}>
-          <Typography variant="h3" color="primary" align="center">
-            STOCK APP
-          </Typography>
-        </Grid>
-
         <Grid item xs={12} sm={10} md={6}>
           <Avatar
             sx={{
@@ -69,12 +63,8 @@ const Register = () => {
           ></Formik>
 
           <Box sx={{ textAlign: "center", mt: 2 }}>
-            <Link to="/">Do you have an account?</Link>
+            <Link to="login">Do you have an account?</Link>
           </Box>
-        </Grid>
-
-        <Grid item xs={0} sm={7} md={6}>
-          <Container>{/* <img src={image} alt="" /> */}</Container>
         </Grid>
       </Grid>
     </Container>

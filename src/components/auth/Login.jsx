@@ -15,9 +15,8 @@ const Login = () => {
   // const { login } = useAuthCalls()
 
   const loginSchema = object({
-    email: string()
-      .email("Lütfen geçerli bir email giriniz")
-      .required("Email girişi zorunludur"),
+    username: string()
+      .required("Kullanıcı adı girişi zorunludur"),
     password: string()
       .required("Şifre zorunludur.")
       .min(8, "Şifre en az 8 karakter içermelidir")
@@ -77,16 +76,16 @@ const Login = () => {
               <Form>
                 <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                   <TextField
-                    label="Email"
-                    name="email"
-                    id="email"
-                    type="email"
+                    label="kullanıcı adı"
+                    name="username"
+                    id="username"
+                    type="text"
                     variant="outlined"
-                    value={values.email}
+                    value={values.username}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    error={touched.email && Boolean(errors.email)}
-                    helperText={errors.email}
+                    error={touched.username && Boolean(errors.username)}
+                    helperText={errors.username}
                   />
                   <TextField
                     label="password"

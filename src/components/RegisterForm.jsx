@@ -76,91 +76,93 @@ const RegisterForm = ({
   handleBlur,
 }) => {
   return (
-    <Form>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        <TextField
-          label="User Name"
-          name="username"
-          type="text"
-          variant="outlined"
-          value={values.username}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.username && Boolean(errors.username)}
-          helperText={errors.username}
-        />
-        <TextField
-          label="First Name"
-          name="firstName"
-          type="text"
-          variant="outlined"
-          value={values.firstName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.firstName && Boolean(errors.firstName)}
-          helperText={errors.firstName}
-        />
-        <TextField
-          label="Last Name"
-          name="lastName"
-          type="text"
-          variant="outlined"
-          value={values.lastName}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.lastName && Boolean(errors.lastName)}
-          helperText={errors.lastName}
-        />
-        <TextField
-          label="Email"
-          name="email"
-          type="email"
-          variant="outlined"
-          value={values.email}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.email && Boolean(errors.email)}
-          helperText={errors.email}
-        />
-        {/* <FileUpload name="image" /> */}
-        <TextField
-          label="Image"
-          name="image"
-          type="text"
-          variant="outlined"
-          value={values.image}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.image && Boolean(errors.image)}
-          helperText={errors.image}
-        />
-        <TextField
-          label="Bio"
-          name="bio"
-          type="text"
-          variant="outlined"
-          // value={values.bio}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          // error={touched.bio && Boolean(errors.bio)}
-          // helperText={errors.bio}
-        />
-        <TextField
-          label="Password"
-          name="password"
-          type="password"
-          variant="outlined"
-          value={values.password}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          error={touched.password && Boolean(errors.password)}
-          helperText={errors.password}
-        />
-        <Button type="submit" variant="contained" size="large">
-          Submit
-        </Button>
-      </Box>
-    </Form>
+    <>
+      <Form>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <TextField
+            label="User Name"
+            name="username"
+            type="text"
+            variant="outlined"
+            value={values.username}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.username && Boolean(errors.username)}
+            helperText={errors.username}
+          />
+          <TextField
+            label="First Name"
+            name="firstName"
+            type="text"
+            variant="outlined"
+            value={values.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.firstName && Boolean(errors.firstName)}
+            helperText={errors.firstName}
+          />
+          <TextField
+            label="Last Name"
+            name="lastName"
+            type="text"
+            variant="outlined"
+            value={values.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.lastName && Boolean(errors.lastName)}
+            helperText={errors.lastName}
+          />
+          <TextField
+            label="Email"
+            name="email"
+            type="email"
+            variant="outlined"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.email && Boolean(errors.email)}
+            helperText={errors.email}
+          />
+          {/* <FileUpload name="image" /> */}
+          <TextField
+            label="Image"
+            name="image"
+            type="text"
+            variant="outlined"
+            value={values.image}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.image && Boolean(errors.image)}
+            helperText={errors.image}
+          />
+          <TextField
+            label="Bio"
+            name="bio"
+            type="text"
+            variant="outlined"
+            // value={values.bio}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            // error={touched.bio && Boolean(errors.bio)}
+            // helperText={errors.bio}
+          />
+          <TextField
+            label="Password"
+            name="password"
+            type="password"
+            variant="outlined"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            error={touched.password && Boolean(errors.password)}
+            helperText={errors.password}
+          />
+          <Button type="submit" variant="contained" size="large">
+            Submit
+          </Button>
+        </Box>
+      </Form>
+    </>
   );
 };
 

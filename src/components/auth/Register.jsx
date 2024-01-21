@@ -17,9 +17,10 @@ const Register = () => {
 
   useEffect(() => {
     if (formRef.current) {
-      setFormHeight(formRef.current.clientHeight);
+      setFormHeight(formRef.current.clientHeight + 150);
     }
   }, []);
+
   // const { register } = useAuthCalls()
 
   return (
@@ -77,9 +78,11 @@ const Register = () => {
             <Link to="login">Do you have an account?</Link>
           </Box>
         </Grid>
+        {/* <Box style={{ height: 250 }}></Box> */}
         <Grid item style={{ height: formHeight }}>
           {/* Boşluk için ek içerik gerekmez */}
         </Grid>
+       
       </Grid>
     </Container>
   );

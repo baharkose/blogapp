@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../service/useAxios";
 
@@ -12,17 +12,22 @@ const AuthContextProvider = ({ children }) => {
   const { axiosPublic } = useAxios();
   const navigate = useNavigate();
 
-  const [currentUser, setCurrentUser] = useState({
-    username: "",
-    password: "",
+  // Yerel depolamadan kullanıcı bilgilerini yükleyin
+  const [currentUser, setCurrentUser] = useState(() => {
+    const savedUser = localStorage.getItem("currentUser");
+    return savedUser ? JSON.parse(savedUser) : null;
   });
+
+  useEffect(() => {
+    // Kullanıcı bilgilerini yerel depolamaya kaydedin
+    if (currentUser) {
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    }
+  }, [currentUser]);
 
   const signIn = async (userInfo) => {
     try {
       const { data } = await axiosPublic.post("/auth/login/", userInfo);
-
-      console.log(data);
-
       setCurrentUser(data);
       navigate("/");
       console.log("login başarılı");
@@ -34,7 +39,6 @@ const AuthContextProvider = ({ children }) => {
   const signUp = async (userInfo) => {
     try {
       const { data } = await axiosPublic.post("/users/", userInfo);
-      console.log(data);
       setCurrentUser(data);
       navigate("/");
       console.log("kayıt başarılı");

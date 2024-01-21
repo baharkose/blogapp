@@ -14,6 +14,7 @@ import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 
 const AppRouter = () => {
+  
   return (
     <>
       <Navbars />

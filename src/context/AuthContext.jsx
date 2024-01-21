@@ -23,7 +23,8 @@ const AuthContextProvider = ({ children }) => {
 
       console.log(data);
 
-      navigate("dashboard");
+      setCurrentUser(data);
+      navigate("/");
       console.log("login başarılı");
     } catch (error) {
       console.log(error);
@@ -34,7 +35,8 @@ const AuthContextProvider = ({ children }) => {
     try {
       const { data } = await axiosPublic.post("/users/", userInfo);
       console.log(data);
-      navigate("dashboard");
+      setCurrentUser(data);
+      navigate("/");
       console.log("kayıt başarılı");
     } catch (error) {
       console.log(error);
@@ -42,6 +44,7 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const values = {
+    currentUser,
     signIn,
     signUp,
   };

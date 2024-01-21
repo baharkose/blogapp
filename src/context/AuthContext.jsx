@@ -21,6 +21,8 @@ const AuthContextProvider = ({ children }) => {
     try {
       const { data } = await axiosPublic.post("/auth/login/", userInfo);
 
+      console.log(data);
+
       navigate("dashboard");
       console.log("login başarılı");
     } catch (error) {
@@ -30,7 +32,8 @@ const AuthContextProvider = ({ children }) => {
 
   const signUp = async (userInfo) => {
     try {
-      const { data } = await axiosPublic.post("/users/");
+      const { data } = await axiosPublic.post("/users/", userInfo);
+      console.log(data);
       navigate("dashboard");
       console.log("kayıt başarılı");
     } catch (error) {

@@ -9,9 +9,13 @@ import { Link } from "react-router-dom";
 import RegisterForm, { registerSchema } from "../RegisterForm";
 import { Formik } from "formik";
 import { useEffect, useState, useRef } from "react";
+import { useAuthContext } from "../../context/AuthContext";
 // import useAuthCalls from "../service/useAuthCalls"
 
 const Register = () => {
+  const { signUp } = useAuthContext();
+  
+
   const formRef = useRef(null);
   const [formHeight, setFormHeight] = useState(0);
 
@@ -67,7 +71,7 @@ const Register = () => {
             }}
             validationSchema={registerSchema}
             onSubmit={(values, actions) => {
-              // register(values)
+              signUp(values)
               actions.resetForm();
               actions.setSubmitting(false);
             }}
@@ -82,7 +86,6 @@ const Register = () => {
         <Grid item style={{ height: formHeight }}>
           {/* Boşluk için ek içerik gerekmez */}
         </Grid>
-       
       </Grid>
     </Container>
   );

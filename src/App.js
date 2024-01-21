@@ -1,11 +1,14 @@
+import AuthContextProvider from "./context/AuthContext";
 import AppRouter from "./router/AppRouter";
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <AppRouter />
+        <AuthContextProvider>
+          <AppRouter />
+        </AuthContextProvider>
       </BrowserRouter>
     </>
   );

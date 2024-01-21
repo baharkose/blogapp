@@ -9,14 +9,16 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { Formik, Form } from "formik";
 import { object, string } from "yup";
+import { useAuthContext } from "../../context/AuthContext";
 // import useAuthCalls from "../service/useAuthCalls"
 
 const Login = () => {
   // const { login } = useAuthCalls()
+  const { signIn } = useAuthContext();
+  console.log(signIn);
 
   const loginSchema = object({
-    username: string()
-      .required("Kullanıcı adı girişi zorunludur"),
+    username: string().required("Kullanıcı adı girişi zorunludur"),
     password: string()
       .required("Şifre zorunludur.")
       .min(8, "Şifre en az 8 karakter içermelidir")
@@ -64,7 +66,7 @@ const Login = () => {
             validationSchema={loginSchema}
             onSubmit={(values, actions) => {
               //TODO login(post) istegi
-              // login(values)
+              signIn(values)
               actions.resetForm();
               actions.setSubmitting(false); //? isSubmitting
               //? veriler global state'e aktırlabilir

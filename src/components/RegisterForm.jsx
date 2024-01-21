@@ -1,23 +1,35 @@
-import Box from "@mui/material/Box"
-import Button from "@mui/material/Button"
-import TextField from "@mui/material/TextField"
-import { Form } from "formik"
-import { object, string } from "yup"
+import React from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import { Form, useFormikContext } from "formik";
+import { object, string } from "yup";
 
 export const registerSchema = object({
   username: string()
-    .max(20, "Kullanıcı adı 10 karakterden az olmalıdır.")
+    .max(20, "Kullanıcı adı 20 karakterden az olmalıdır.")
     .required("Kullanıcı adı zorunludur"),
   firstName: string()
     .max(20, "İsim 20 karakterden az olmalıdır.")
     .required("İsim zorunludur"),
   lastName: string()
-    .max(20, "Soyisim 30 karakterden az olmalıdır.")
+    .max(20, "Soyisim 20 karakterden az olmalıdır.")
     .required("Soyisim zorunludur"),
-
   email: string()
     .email("Lütfen geçerli bir email giriniz.")
     .required("Email zorunludur"),
+  // image: string()
+  //   .test(
+  //     "fileSize",
+  //     "Dosya boyutu çok büyük",
+  //     (value) => !value || (value && value.size <= 1024 * 1024)
+  //   )
+  //   .test(
+  //     "fileType",
+  //     "Sadece resim dosyaları kabul edilir",
+  //     (value) => !value || (value && ["image/jpg", "image/jpeg", "image/png"].includes(value.type))
+  //   ),
+  image: string().url("Lütfen geçerli bir resim URL'si giriniz."),
   password: string()
     .required("Şifre zorunludur")
     .min(8, "Şifre en az 8 karakter olmalıdır")
@@ -26,7 +38,35 @@ export const registerSchema = object({
     .matches(/[a-z]/, "Şifre bir küçük harf içermelidir")
     .matches(/[A-Z]/, "Şifre bir büyük harf içermelidir")
     .matches(/[!/[@$!%*?&]+/, "Şifre bir özel karakter içermelidir"),
-})
+});
+
+const FileUpload = ({ name }) => {
+  const { setFieldValue } = useFormikContext();
+
+  const handleChange = (event) => {
+    const file = event.currentTarget.files[0];
+    setFieldValue(name, file);
+  };
+
+  return (
+    <div>
+      <input
+        accept="image/*"
+        style={{ display: "none" }}
+        id="raised-button-file"
+        multiple
+        type="file"
+        onChange={handleChange}
+      />
+      <label htmlFor="raised-button-file">
+        <Button variant="contained" component="span">
+          Upload
+        </Button>
+      </label>
+      {name && <span>{name}</span>}
+    </div>
+  );
+};
 
 const RegisterForm = ({
   values,
@@ -41,7 +81,6 @@ const RegisterForm = ({
         <TextField
           label="User Name"
           name="username"
-          id="userName"
           type="text"
           variant="outlined"
           value={values.username}
@@ -53,7 +92,6 @@ const RegisterForm = ({
         <TextField
           label="First Name"
           name="firstName"
-          id="firstName"
           type="text"
           variant="outlined"
           value={values.firstName}
@@ -65,7 +103,6 @@ const RegisterForm = ({
         <TextField
           label="Last Name"
           name="lastName"
-          id="lastName"
           type="text"
           variant="outlined"
           value={values.lastName}
@@ -77,7 +114,6 @@ const RegisterForm = ({
         <TextField
           label="Email"
           name="email"
-          id="email"
           type="email"
           variant="outlined"
           value={values.email}
@@ -86,10 +122,32 @@ const RegisterForm = ({
           error={touched.email && Boolean(errors.email)}
           helperText={errors.email}
         />
+        {/* <FileUpload name="image" /> */}
         <TextField
-          label="password"
+          label="Image"
+          name="image"
+          type="text"
+          variant="outlined"
+          value={values.image}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={touched.image && Boolean(errors.image)}
+          helperText={errors.image}
+        />
+        <TextField
+          label="Bio"
+          name="bio"
+          type="text"
+          variant="outlined"
+          // value={values.bio}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          // error={touched.bio && Boolean(errors.bio)}
+          // helperText={errors.bio}
+        />
+        <TextField
+          label="Password"
           name="password"
-          id="password"
           type="password"
           variant="outlined"
           value={values.password}
@@ -103,7 +161,7 @@ const RegisterForm = ({
         </Button>
       </Box>
     </Form>
-  )
-}
+  );
+};
 
-export default RegisterForm
+export default RegisterForm;

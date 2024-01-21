@@ -8,9 +8,18 @@ import Box from "@mui/material/Box";
 import { Link } from "react-router-dom";
 import RegisterForm, { registerSchema } from "../RegisterForm";
 import { Formik } from "formik";
+import { useEffect, useState, useRef } from "react";
 // import useAuthCalls from "../service/useAuthCalls"
 
 const Register = () => {
+  const formRef = useRef(null);
+  const [formHeight, setFormHeight] = useState(0);
+
+  useEffect(() => {
+    if (formRef.current) {
+      setFormHeight(formRef.current.clientHeight);
+    }
+  }, []);
   // const { register } = useAuthCalls()
 
   return (
@@ -25,7 +34,7 @@ const Register = () => {
           p: 2,
         }}
       >
-        <Grid item xs={12} sm={10} md={6}>
+        <Grid item xs={12} sm={10} md={6} ref={formRef}>
           <Avatar
             sx={{
               backgroundColor: "secondary.light",
@@ -51,6 +60,8 @@ const Register = () => {
               firstName: "",
               lastName: "",
               email: "",
+              bio: "",
+              image: "",
               password: "",
             }}
             validationSchema={registerSchema}
@@ -65,6 +76,9 @@ const Register = () => {
           <Box sx={{ textAlign: "center", mt: 2 }}>
             <Link to="login">Do you have an account?</Link>
           </Box>
+        </Grid>
+        <Grid item style={{ height: formHeight }}>
+          {/* Boşluk için ek içerik gerekmez */}
         </Grid>
       </Grid>
     </Container>

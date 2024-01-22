@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
-import { useAuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -17,28 +16,36 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import useAxios from "../service/useAxios";
 
 const BlogDetail = () => {
   const { blogs, isLoading, error, updatePost, getPerson } = useBlogContext();
-  const { currentUser } = useAuthContext();
   const { id } = useParams();
-
-  const axiosInstance = useAxios(currentUser?.token);
-  let [personData, setPersonData] = useState([]);
-  let [newItem, setNewItem] = useState([]);
-
-  const blogDetail = blogs?.data;
-
-  const item = blogDetail?.find((blog) => blog?._id === id);
+  const [blogPost, setBlogPost] = useState(null);
+  const [isViewCountUpdated, setIsViewCountUpdated] = useState(false);
 
   useEffect(() => {
-    // postu kim paylaşmış görmek için
-    getPerson(blogs, setPersonData);
-    if (item && item.id) {
-      updatePost(item.id);
+    // Blog postunu bulma
+    const foundItem = blogs?.data?.find((blog) => blog?._id === id);
+    if (foundItem) {
+      setBlogPost(foundItem);
     }
-  }, [blogs, item, updatePost, getPerson]);
+  }, [blogs, id]);
+
+  useEffect(() => {
+    // Görüntüleme sayısını arttırma
+    if (blogPost && !isViewCountUpdated) {
+      const updatedItem = {
+        ...blogPost,
+        countOfVisitors: blogPost.countOfVisitors + 1,
+      };
+
+      setBlogPost(updatedItem);
+      updatePost(blogPost._id, {
+        countOfVisitors: updatedItem.countOfVisitors,
+      });
+      setIsViewCountUpdated(true);
+    }
+  }, [blogPost]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading blogs</div>;
@@ -56,9 +63,7 @@ const BlogDetail = () => {
     });
   };
 
-  console.log(item);
-
-  if (!item) {
+  if (!blogPost) {
     return <Box> İçerik bulunamadı</Box>;
   }
 
@@ -69,34 +74,35 @@ const BlogDetail = () => {
           <CardMedia
             component="img"
             height="250"
-            image={item?.image}
-            alt={item?.title}
+            image={blogPost.image}
+            alt={blogPost.title}
           />
           <CardContent>
-            <Avatar alt={personData?.username} src={personData?.image} />
-            <Typography>{personData?.username}</Typography>
+            <Avatar alt="User" src="/static/images/avatar.jpg" />{" "}
+            {/* Profil resmi yer tutucu */}
             <Typography variant="body2" color="text.secondary">
-              Published Date: {formatDate(item?.createdAt)}
+              Published Date: {formatDate(blogPost.createdAt)}
             </Typography>
           </CardContent>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {item?.title}
+              {blogPost.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {item?.content}
+              {blogPost.content}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon /> <Typography>{item?.likes.length}</Typography>
+            <FavoriteIcon /> <Typography>{blogPost.likes.length}</Typography>
           </IconButton>
           <IconButton aria-label="comment">
-            <CommentIcon /> <Typography>{item?.comments.length}</Typography>
+            <CommentIcon /> <Typography>{blogPost.comments.length}</Typography>
           </IconButton>
           <IconButton aria-label="views">
-            <VisibilityIcon /> <Typography>{item?.countOfVisitors}</Typography>
+            <VisibilityIcon />{" "}
+            <Typography>{blogPost.countOfVisitors}</Typography>
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />

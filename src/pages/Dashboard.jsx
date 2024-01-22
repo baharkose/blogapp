@@ -14,7 +14,7 @@ const Dashboard = () => {
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading blogs</div>;
   
-  const data = blogs.data;
+  const data = blogs?.data;
   console.log(data);
 
   return (

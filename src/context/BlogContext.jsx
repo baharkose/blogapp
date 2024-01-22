@@ -45,9 +45,9 @@ export const BlogContextProvider = ({ children }) => {
     },
   });
 
-  const updatePost = async (id) => {
+  const updatePost = async (id, info) => {
     try {
-      const { data } = await axiosToken.put(`/blogs/${id}`);
+      const { data } = await axiosToken.put(`/blogs/${id}`, info);
       console.log(data);
     } catch (error) {
       console.log(error);

@@ -22,8 +22,6 @@ const settings = ["myblog", "profile"];
 function Navbars() {
   const { currentUser, logout } = useAuthContext();
 
-
-
   // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -42,8 +40,6 @@ function Navbars() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-
 
   return (
     <AppBar position="static">
@@ -97,9 +93,9 @@ function Navbars() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
+              {pages.map((page, index) => (
                 <Link to={page}>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <MenuItem key={index} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
                   </MenuItem>
                 </Link>
@@ -126,10 +122,10 @@ function Navbars() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Link to={page}>
                 <Button
-                  key={page}
+                  key={index}
                   onClick={handleCloseNavMenu}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
@@ -161,25 +157,24 @@ function Navbars() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {currentUser && 
-                settings.map((setting) => (
+              {currentUser &&
+                settings.map((setting, index) => (
                   <Link to={setting}>
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem key={index} onClick={handleCloseUserMenu}>
                       <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                   </Link>
                 ))}
 
-                {currentUser &&
-                 <Link to="">
-                 <MenuItem>
-                   <Typography textAlign="center" onClick={logout}>
-                     Logout
-                   </Typography>
-                 </MenuItem>
-               </Link>
-                }
-
+              {currentUser && (
+                <Link to="">
+                  <MenuItem>
+                    <Typography textAlign="center" onClick={logout}>
+                      Logout
+                    </Typography>
+                  </MenuItem>
+                </Link>
+              )}
 
               {!currentUser && (
                 <Link to="auth">

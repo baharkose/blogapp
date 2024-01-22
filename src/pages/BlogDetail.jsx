@@ -20,27 +20,25 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import useAxios from "../service/useAxios";
 
 const BlogDetail = () => {
-  const { blogs, isLoading, error } = useBlogContext();
+  const { blogs, isLoading, error, updatePost, getPerson } = useBlogContext();
   const { currentUser } = useAuthContext();
   const { id } = useParams();
+
   const axiosInstance = useAxios(currentUser?.token);
   let [personData, setPersonData] = useState([]);
+  let [newItem, setNewItem] = useState([]);
+
+  const blogDetail = blogs?.data;
+
+  const item = blogDetail?.find((blog) => blog?._id === id);
 
   useEffect(() => {
-    const getPerson = async () => {
-      try {
-        const userId = blogs?.data?.userId;
-        if (userId) {
-          const { data } = await axiosInstance.get(`/users/${userId}`);
-          setPersonData(data.data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getPerson();
-  }, [blogs, axiosInstance]);
+    // postu kim paylaşmış görmek için
+    getPerson(blogs, setPersonData);
+    if (item && item.id) {
+      updatePost(item.id);
+    }
+  }, [blogs, item, updatePost, getPerson]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading blogs</div>;
@@ -58,8 +56,7 @@ const BlogDetail = () => {
     });
   };
 
-  const blogDetail = blogs?.data;
-  const item = blogDetail?.find((blog) => blog._id === id);
+  console.log(item);
 
   if (!item) {
     return <Box> İçerik bulunamadı</Box>;

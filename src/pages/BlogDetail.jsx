@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
+import { useAuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -9,7 +10,6 @@ import {
   CardActions,
   Typography,
   IconButton,
-  Button,
   Box,
   Avatar,
 } from "@mui/material";
@@ -17,82 +17,49 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useNavigate } from "react-router-dom";
-import useAxiosPublic from "../service/useAxiosPublic";
-import { useEffect, useState } from "react";
 import useAxios from "../service/useAxios";
-import { useAuthContext } from "../context/AuthContext";
 
 const BlogDetail = () => {
-  const { blogs } = useBlogContext();
+  const { blogs, isLoading, error } = useBlogContext();
   const { currentUser } = useAuthContext();
   const { id } = useParams();
-  console.log(blogs.data);
-
-  const userId = blogs?.data?.userId;
-
   const axiosInstance = useAxios(currentUser?.token);
   let [personData, setPersonData] = useState([]);
-  const getPerson = async () => {
-    try {
-      const { data } = await axiosInstance.get(`/users/${userId}`);
-      setPersonData(data.data);
-      console.log(personData);
-    } catch (error) {
-      console.log(error);
-    }
+
+  useEffect(() => {
+    const getPerson = async () => {
+      try {
+        const userId = blogs?.data?.userId;
+        if (userId) {
+          const { data } = await axiosInstance.get(`/users/${userId}`);
+          setPersonData(data.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getPerson();
+  }, [blogs, axiosInstance]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading blogs</div>;
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("tr-TR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
   };
 
-  function formatDate(dateString) {
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    };
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // getMonth 0'dan başlar
-    const year = date.getFullYear();
-    const hour = date.getHours().toString().padStart(2, "0");
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    const second = date.getSeconds().toString().padStart(2, "0");
-
-    return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
-  }
-  useEffect(() => {
-    getPerson();
-  }, []);
-
-  function formatDate(dateString) {
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-      hour12: false,
-    };
-    const date = new Date(dateString);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // getMonth 0'dan başlar
-    const year = date.getFullYear();
-    const hour = date.getHours().toString().padStart(2, "0");
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    const second = date.getSeconds().toString().padStart(2, "0");
-
-    return `${day}/${month}/${year} ${hour}:${minute}:${second}`;
-  }
-  const blogdetail = blogs?.data;
-  // tank query eklenecek
-
-  const item = blogdetail?.find((item) => item._id === id);
-
-  console.log(item);
+  const blogDetail = blogs?.data;
+  const item = blogDetail?.find((blog) => blog._id === id);
 
   if (!item) {
     return <Box> İçerik bulunamadı</Box>;
@@ -107,13 +74,12 @@ const BlogDetail = () => {
             height="250"
             image={item?.image}
             alt={item?.title}
-            sx={{ height: "160px", objectFit: "cover" }}
           />
           <CardContent>
-            <Avatar alt="" src={personData?.image} />
+            <Avatar alt={personData?.username} src={personData?.image} />
             <Typography>{personData?.username}</Typography>
             <Typography variant="body2" color="text.secondary">
-              Published Date: {formatDate(personData?.createdAt)}
+              Published Date: {formatDate(item?.createdAt)}
             </Typography>
           </CardContent>
           <CardContent>
@@ -122,20 +88,6 @@ const BlogDetail = () => {
             </Typography>
             <Typography variant="body2" color="text.secondary">
               {item?.content}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Published Date:{" "}
-              {new Date(item?.createdAt).toLocaleDateString("tr-TR", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-              })}{" "}
-              {new Date(item?.createdAt).toLocaleTimeString("tr-TR", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                hour12: false,
-              })}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -147,11 +99,10 @@ const BlogDetail = () => {
             <CommentIcon /> <Typography>{item?.comments.length}</Typography>
           </IconButton>
           <IconButton aria-label="views">
-            <VisibilityIcon /> &nbsp;{" "}
-            <Typography>{item?.countOfVisitors}</Typography>
+            <VisibilityIcon /> <Typography>{item?.countOfVisitors}</Typography>
           </IconButton>
           <IconButton aria-label="share">
-            <ShareIcon /> <Typography>{item?.isPublish}</Typography>
+            <ShareIcon />
           </IconButton>
         </CardActions>
       </Card>

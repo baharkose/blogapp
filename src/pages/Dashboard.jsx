@@ -4,13 +4,16 @@ import BlogCard from "../components/blog/BlogCard";
 import { Grid } from "@mui/material";
 
 const Dashboard = () => {
-  const { getBlog, blogs } = useBlogContext();
+  const { blogs, isLoading, error } = useBlogContext();
 
-  console.log(blogs);
-  useEffect(() => {
-    getBlog();
-  }, []);
+  // console.log(blogs);
+  // useEffect(() => {
+  //   getBlog();
+  // }, []);
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading blogs</div>;
+  
   const data = blogs.data;
   console.log(data);
 
@@ -25,7 +28,7 @@ const Dashboard = () => {
           key={index}
           sx={{
             height: 400, // Sabit yükseklik
-            overflow: 'hidden', // İçerik taşarsa gizle
+            overflow: "hidden", // İçerik taşarsa gizle
           }}
         >
           <BlogCard item={item} />

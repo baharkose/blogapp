@@ -28,9 +28,7 @@ export const BlogContextProvider = ({ children }) => {
     getBlog,
   };
 
-  return (
-    <BlogContext.Provider value={values}>{children}</BlogContext.Provider>
-  );
+  return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;
 };
 
 export default BlogContextProvider;

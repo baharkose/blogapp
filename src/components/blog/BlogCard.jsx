@@ -51,9 +51,17 @@ const BlogCard = ({ item }) => {
           >
             {item.content}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Published Date: {item.createdAt}
-          </Typography>
+          {new Date(item?.createdAt).toLocaleDateString("tr-TR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+          })}{" "}
+          {new Date(item?.createdAt).toLocaleTimeString("tr-TR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+          })}
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>

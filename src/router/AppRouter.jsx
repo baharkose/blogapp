@@ -12,9 +12,13 @@ import Navbars from "../components/Navbars";
 import Footers from "../components/Footers";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
+import useAxios from '../service/useAxios';
+import { useAuthContext } from '../context/AuthContext';
+
 
 const AppRouter = () => {
-  
+  const { currentUser } = useAuthContext();
+  const { axiosPublic } = useAxios();
   return (
     <>
       <Navbars />

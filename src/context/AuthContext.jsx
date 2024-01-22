@@ -1,5 +1,7 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useContext } from "react";
 import useAxios from "../service/useAxios";
 
 export const AuthContext = createContext();
@@ -9,17 +11,20 @@ export const useAuthContext = () => {
 };
 
 const AuthContextProvider = ({ children }) => {
-  const { axiosPublic } = useAxios();
   const navigate = useNavigate();
-
-  // Yerel depolamadan kullanıcı bilgilerini yükleyin
   const [currentUser, setCurrentUser] = useState(() => {
     const savedUser = localStorage.getItem("currentUser");
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
+  //2 useAxiosa token parametresi verildi.
+  const axiosInstance = useAxios(currentUser?.token);
+
+  const axiosPublic = axios.create({
+    baseURL: `${process.env.REACT_APP_BASE_URL}`,
+  });
+
   useEffect(() => {
-    // Kullanıcı bilgilerini yerel depolamaya kaydedin
     if (currentUser) {
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
     }
@@ -46,11 +51,25 @@ const AuthContextProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const logout = async () => {
+    try {
+      // klasik çıkış işlemi
+      // axiosInstance ile API çağrısını yapın
+      await axiosInstance.get("/auth/logout/");
+      setCurrentUser(null);
+      localStorage.removeItem("currentUser");
+      navigate("/");
+      console.log("logout başarılı");
+    } catch (error) {
+      console.error("Logout sırasında hata oluştu:", error);
+    }
+  };
 
   const values = {
     currentUser,
     signIn,
     signUp,
+    logout,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

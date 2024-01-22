@@ -16,10 +16,11 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 const pages = ["dashboard", "newblog", "about"];
-const settings = ["myblog", "profile", "logout"];
+const settings = ["myblog", "profile"];
 
 function Navbars() {
-  const { currentUser } = useAuthContext();
+  const { currentUser, logout } = useAuthContext();
+  
   // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -157,14 +158,24 @@ function Navbars() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {currentUser &&
-                settings.map((setting) => (
-                  <Link to={setting}>
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+              {currentUser && (
+                <>
+                  {settings.map((setting) => (
+                    <Link to={setting}>
+                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                        <Typography textAlign="center">{setting}</Typography>
+                      </MenuItem>
+                    </Link>
+                  ))}
+                  <Link to="">
+                    <MenuItem>
+                      <Typography textAlign="center" onClick={logout}>
+                        Logout
+                      </Typography>
                     </MenuItem>
                   </Link>
-                ))}
+                </>
+              )}
 
               {!currentUser && (
                 <Link to="auth">

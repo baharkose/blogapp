@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useContext } from "react";
 import useAxios from "../service/useAxios";
+import useAxiosPublic from "../service/useAxiosPublic";
 
 export const AuthContext = createContext();
 
@@ -19,10 +20,11 @@ const AuthContextProvider = ({ children }) => {
 
   //2 useAxiosa token parametresi verildi.
   const axiosInstance = useAxios(currentUser?.token);
+  const axiosPublic = useAxiosPublic();
 
-  const axiosPublic = axios.create({
-    baseURL: `${process.env.REACT_APP_BASE_URL}`,
-  });
+  // const axiosPublic = axios.create({
+  //   baseURL: `${process.env.REACT_APP_BASE_URL}`,
+  // });
 
   useEffect(() => {
     if (currentUser) {

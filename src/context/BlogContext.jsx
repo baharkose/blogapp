@@ -1,11 +1,22 @@
-import React from 'react'
+import React, { createContext, useContext } from "react";
 
-const BlogContext = () => {
-  return (
-    <div>
+export const BlogContext = createContext();
+
+export const useBlogContext = () => {
+  const getBlog = async () => {
+    try {
+      const {data}
       
-    </div>
-  )
-}
+    } catch (error) {
+      
+    }
+  };
 
-export default BlogContext
+  return useContext(BlogContext);
+};
+
+const BlogContextProvider = ({ children }) => {
+  return <BlogContext.Provider>{children}</BlogContext.Provider>;
+};
+
+export default BlogContextProvider;

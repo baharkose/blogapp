@@ -12,9 +12,18 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useNavigate } from "react-router-dom";
 
 const BlogCard = ({ item }) => {
   console.log(item);
+  const navigate = useNavigate();
+
+  const id = item._id;
+  const handleReadMore = () => {
+    navigate(`/blogdetail/${id}`);
+    // başına slash koymazsan dashboard/blogdetaile gitmeye çalışıyor
+  };
   return (
     <Card sx={{ width: 345, margin: "auto" }}>
       <CardActionArea>
@@ -23,7 +32,7 @@ const BlogCard = ({ item }) => {
           height="140"
           image={item.image} // Burayı gerçek resim yolunuz ile değiştirin
           alt={item.title}
-          sx={{ height: '160px', objectFit: 'cover' }}
+          sx={{ height: "160px", objectFit: "cover" }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
@@ -54,10 +63,14 @@ const BlogCard = ({ item }) => {
         <IconButton aria-label="comment">
           <CommentIcon /> <Typography>{item?.comments.length}</Typography>
         </IconButton>
+        <IconButton aria-label="views">
+          <VisibilityIcon /> &nbsp;{" "}
+          <Typography>{item?.countOfVisitors}</Typography>
+        </IconButton>
         <IconButton aria-label="share">
           <ShareIcon /> <Typography>{item?.isPublish}</Typography>
         </IconButton>
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" onClick={handleReadMore}>
           READ MORE
         </Button>
       </CardActions>

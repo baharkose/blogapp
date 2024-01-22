@@ -20,7 +20,7 @@ const settings = ["myblog", "profile"];
 
 function Navbars() {
   const { currentUser, logout } = useAuthContext();
-  
+
   // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -158,24 +158,25 @@ function Navbars() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {currentUser && (
-                <>
-                  {settings.map((setting) => (
-                    <Link to={setting}>
-                      <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                        <Typography textAlign="center">{setting}</Typography>
-                      </MenuItem>
-                    </Link>
-                  ))}
-                  <Link to="">
-                    <MenuItem>
-                      <Typography textAlign="center" onClick={logout}>
-                        Logout
-                      </Typography>
+              {currentUser && 
+                settings.map((setting) => (
+                  <Link to={setting}>
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
                     </MenuItem>
                   </Link>
-                </>
-              )}
+                ))}
+
+                {currentUser &&
+                 <Link to="">
+                 <MenuItem>
+                   <Typography textAlign="center" onClick={logout}>
+                     Logout
+                   </Typography>
+                 </MenuItem>
+               </Link>
+                }
+
 
               {!currentUser && (
                 <Link to="auth">

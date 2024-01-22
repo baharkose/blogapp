@@ -14,12 +14,15 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
+import { useEffect } from "react";
 
 const pages = ["dashboard", "newblog", "about"];
 const settings = ["myblog", "profile"];
 
 function Navbars() {
   const { currentUser, logout } = useAuthContext();
+
+
 
   // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,7 +43,7 @@ function Navbars() {
     setAnchorElUser(null);
   };
 
-  const user = false;
+
 
   return (
     <AppBar position="static">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActionArea,
@@ -7,43 +7,55 @@ import {
   CardActions,
   Typography,
   IconButton,
-  Button
-} from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import CommentIcon from '@mui/icons-material/Comment';
+  Button,
+} from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import CommentIcon from "@mui/icons-material/Comment";
 
-const BlogCard = () => {
+const BlogCard = ({ item }) => {
+  console.log(item);
   return (
-    <Card sx={{ maxWidth: 345, margin: 'auto' }}>
+    <Card sx={{ width: 345, margin: "auto" }}>
       <CardActionArea>
         <CardMedia
           component="img"
           height="140"
-          image="/your-image-path.jpg" // Burayı gerçek resim yolunuz ile değiştirin
-          alt="Blog Post"
+          image={item.image} // Burayı gerçek resim yolunuz ile değiştirin
+          alt={item.title}
+          sx={{ height: '160px', objectFit: 'cover' }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            SAMPLE TECHNOLOGY POST -2
+            {item.title}
+          </Typography>
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            sx={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 3, // Burada '3' satır sınırlaması olarak ayarlanmıştır.
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {item.content}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Similique labore repellendus quibusdam consequuntur quae...
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Published Date: 1/27/2024, 9:23:43 AM
+            Published Date: {item.createdAt}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon /> <Typography>5</Typography>
+          <FavoriteIcon /> <Typography>{item?.likes.length}</Typography>
         </IconButton>
         <IconButton aria-label="comment">
-          <CommentIcon /> <Typography>1</Typography>
+          <CommentIcon /> <Typography>{item?.comments.length}</Typography>
         </IconButton>
         <IconButton aria-label="share">
-          <ShareIcon /> <Typography>18</Typography>
+          <ShareIcon /> <Typography>{item?.isPublish}</Typography>
         </IconButton>
         <Button size="small" color="primary">
           READ MORE
@@ -51,6 +63,6 @@ const BlogCard = () => {
       </CardActions>
     </Card>
   );
-}
+};
 
 export default BlogCard;

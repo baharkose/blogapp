@@ -12,9 +12,8 @@ import Navbars from "../components/Navbars";
 import Footers from "../components/Footers";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
-import useAxios from '../service/useAxios';
-import { useAuthContext } from '../context/AuthContext';
-
+import useAxios from "../service/useAxios";
+import { useAuthContext } from "../context/AuthContext";
 
 const AppRouter = () => {
   const { currentUser } = useAuthContext();
@@ -24,6 +23,7 @@ const AppRouter = () => {
       <Navbars />
       <Routes>
         <Route path="/" element={<Dashboard />} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="about" element={<About />} />
         {/* <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} /> */}

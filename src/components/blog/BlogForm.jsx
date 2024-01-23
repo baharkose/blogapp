@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -9,15 +9,19 @@ import {
   Select,
   FormControl,
   InputLabel,
-} from '@mui/material';
+} from "@mui/material";
+import { useBlogContext } from "../../context/BlogContext";
 
 const BlogForm = () => {
+  const { categories, postBlog } = useBlogContext();
+  console.log(categories);
+
   const [formData, setFormData] = useState({
-    title: '',
-    imageUrl: '',
-    category: '',
-    status: '',
-    content: '',
+    title: "",
+    image: "",
+    categoryId: "",
+    isPublish: "",
+    content: "",
   });
 
   const handleChange = (e) => {
@@ -27,6 +31,8 @@ const BlogForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+    postBlog(formData);
+
     // Form submit logic here
   };
 
@@ -34,7 +40,7 @@ const BlogForm = () => {
     <Container maxWidth="sm">
       <Box
         component="form"
-        sx={{ '& .MuiTextField-root': { m: 1 }, mt: 3 }}
+        sx={{ "& .MuiTextField-root": { m: 1 }, mt: 3 }}
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit}
@@ -56,25 +62,27 @@ const BlogForm = () => {
           required
           fullWidth
           label="Image URL"
-          name="imageUrl"
-          value={formData.imageUrl}
+          name="image"
+          value={formData.image}
           onChange={handleChange}
         />
 
         <FormControl fullWidth sx={{ m: 1 }}>
-          <InputLabel id="category-label">Category</InputLabel>
+          <InputLabel id="categoryId">Category</InputLabel>
           <Select
-            labelId="category-label"
+            labelId="categoryId"
             label="Category"
-            name="category"
-            value={formData.category}
+            name="categoryId"
+            value={formData.categoryId}
             onChange={handleChange}
             required
           >
             {/* Example categories */}
-            <MenuItem value="tech">Tech</MenuItem>
-            <MenuItem value="lifestyle">Lifestyle</MenuItem>
-            <MenuItem value="business">Business</MenuItem>
+            {categories?.map((item, index) => (
+              <MenuItem key={index} value={item?._id}>
+                {item?.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
@@ -83,16 +91,16 @@ const BlogForm = () => {
           <Select
             labelId="status-label"
             label="Status"
-            name="status"
-            value={formData.status}
+            name="isPublish"
+            value={formData.isPublish}
             onChange={handleChange}
             required
           >
             <MenuItem value="">
               <em>Please choose...</em>
             </MenuItem>
-            <MenuItem value="draft">Draft</MenuItem>
-            <MenuItem value="published">Published</MenuItem>
+            <MenuItem value="false">Draft</MenuItem>
+            <MenuItem value="true">Published</MenuItem>
           </Select>
         </FormControl>
 

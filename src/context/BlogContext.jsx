@@ -101,6 +101,30 @@ export const BlogContextProvider = ({ children }) => {
     return response.data.data;
   };
 
+  // const getCategories = async () => {
+  //   try {
+  //     const { data } = await axiosToken.get(`/categories/`);
+  //   } catch (error) {}
+  // };
+
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const response = await axiosPublic.get("/categories/");
+      return response.data.data;
+    },
+  });
+
+  const postBlog = async (info) => {
+    try {
+      await axiosToken.post(`/blogs/`, info);
+      console.log("post işlemi başarılı");
+    } catch (error) {
+      console.log(error);
+      console.log("post işlemi başarısız oldu");
+    }
+  };
+
   const values = {
     blogs,
     isLoading,
@@ -111,7 +135,8 @@ export const BlogContextProvider = ({ children }) => {
     getBlog,
     likesCount,
     getLikesCount,
-  
+    categories,
+    postBlog,
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

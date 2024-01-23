@@ -1,7 +1,6 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 import useAxiosPublic from "../service/useAxiosPublic";
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxios from "../service/useAxios";
 
 export const BlogContext = createContext();
@@ -12,6 +11,7 @@ export const useBlogContext = () => {
 
 export const BlogContextProvider = ({ children }) => {
   // const [blogs, setBlogs] = useState([]);
+  const queryClient = useQueryClient();
 
   const [currentUser, setCurrentUser] = useState(() => {
     const savedUser = localStorage.getItem("currentUser");
@@ -19,9 +19,8 @@ export const BlogContextProvider = ({ children }) => {
   });
 
   const axiosPublic = useAxiosPublic();
-  const axiosToken = useAxios(currentUser?.token); 
+  const axiosToken = useAxios(currentUser?.token);
   const axiosInstance = useAxios(currentUser?.token);
-
 
   // const getBlog = async () => {
   //   try {
@@ -40,20 +39,30 @@ export const BlogContextProvider = ({ children }) => {
   } = useQuery({
     queryKey: ["blogs"],
     queryFn: async () => {
-      const { data } = await axiosPublic.get("/blogs/");
-      return data;
+      const response = await axiosPublic.get("/blogs/");
+      return response.data;
     },
   });
 
+  // const updatePost = async (id, info) => {
+  //   try {
+  //     const { data } = await axiosToken.put(`/blogs/${id}`, info);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // tanStcakQuery'e göre veri güncelleme işlemi
+
   const updatePost = async (id, info) => {
     try {
-      const { data } = await axiosToken.put(`/blogs/${id}`, info);
-      console.log(data);
+      await axiosToken.put(`/blogs/${id}`, info);
+      queryClient.invalidateQueries(["blogs"]);
     } catch (error) {
-      console.log(error);
+      console.error("Error updating post:", error);
     }
   };
-
 
   const getPerson = async (blogs, setPersonData) => {
     try {
@@ -67,12 +76,18 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+  const fetchBlogPostById = async (id) => {
+    const response = await axiosPublic.get(`/blogs/${id}`);
+    return response.data.data;
+  };
+
   const values = {
     blogs,
     isLoading,
     error,
     updatePost,
     getPerson,
+    fetchBlogPostById,
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

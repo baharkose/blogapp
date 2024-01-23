@@ -18,10 +18,11 @@ import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const BlogDetail = () => {
-  const { blogs, isLoading, error, updatePost, getPerson } = useBlogContext();
+  const { blogs, isLoading, error, updatePost, fetchBlogPostById, getPerson } =
+    useBlogContext();
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
-  const [isViewCountUpdated, setIsViewCountUpdated] = useState(false);
+  const [viewCountUpdated, setViewCountUpdated] = useState(false);
 
   useEffect(() => {
     // Blog postunu bulma
@@ -32,20 +33,22 @@ const BlogDetail = () => {
   }, [blogs, id]);
 
   useEffect(() => {
-    // Görüntüleme sayısını arttırma
-    if (blogPost && !isViewCountUpdated) {
-      const updatedItem = {
-        ...blogPost,
-        countOfVisitors: blogPost.countOfVisitors + 1,
-      };
+    const incrementViewCount = async () => {
+      // update işlemi getten önce çalışmaması için (id null geldiği) için statetin içerisine veriler aktarılıp koşul oluşturuldu.
+      if (blogPost) {
+        // destrucring yapmadan
+        await updatePost(blogPost._id, {
+          countOfVisitors: blogPost.countOfVisitors + 1,
+        });
+        // aktif olarak görüntüleme sayısını görmek için seçilin idye göre çağırma get işlemi yapıldı.
+        const updatedBlogPost = await fetchBlogPostById(blogPost._id);
+        setBlogPost(updatedBlogPost);
+      }
+    };
 
-      setBlogPost(updatedItem);
-      updatePost(blogPost._id, {
-        countOfVisitors: updatedItem.countOfVisitors,
-      });
-      setIsViewCountUpdated(true);
-    }
-  }, [blogPost]);
+    incrementViewCount();
+  }, [blogPost?._id]);
+  // her sayfa refresh edildiğinde id geleceği için görüntüleme sayısı arttırıldı.
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading blogs</div>;
@@ -81,28 +84,29 @@ const BlogDetail = () => {
             <Avatar alt="User" src="/static/images/avatar.jpg" />{" "}
             {/* Profil resmi yer tutucu */}
             <Typography variant="body2" color="text.secondary">
-              Published Date: {formatDate(blogPost.createdAt)}
+              Published Date: {formatDate(blogPost?.createdAt)}
             </Typography>
           </CardContent>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {blogPost.title}
+              {blogPost?.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {blogPost.content}
+              {blogPost?.content}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon /> <Typography>{blogPost.likes.length}</Typography>
+            <FavoriteIcon /> <Typography>{blogPost?.likes?.length}</Typography>
           </IconButton>
           <IconButton aria-label="comment">
-            <CommentIcon /> <Typography>{blogPost.comments.length}</Typography>
+            <CommentIcon />{" "}
+            <Typography>{blogPost?.comments?.length}</Typography>
           </IconButton>
           <IconButton aria-label="views">
             <VisibilityIcon />{" "}
-            <Typography>{blogPost.countOfVisitors}</Typography>
+            <Typography>{blogPost?.countOfVisitors}</Typography>
           </IconButton>
           <IconButton aria-label="share">
             <ShareIcon />

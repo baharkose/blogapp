@@ -20,7 +20,7 @@ const pages = ["dashboard", "newblog", "about"];
 const settings = ["myblog", "profile"];
 
 function Navbars() {
-  const { currentUser, logout } = useAuthContext();
+  const { currentUserInfo, logout } = useAuthContext();
 
   // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -138,7 +138,7 @@ function Navbars() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={currentUser?.data?.image} />
+                <Avatar alt="Remy Sharp" src={currentUserInfo?.image} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -157,7 +157,7 @@ function Navbars() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {currentUser &&
+              {currentUserInfo &&
                 settings.map((setting, index) => (
                   <Link to={setting}>
                     <MenuItem key={index} onClick={handleCloseUserMenu}>
@@ -166,7 +166,7 @@ function Navbars() {
                   </Link>
                 ))}
 
-              {currentUser && (
+              {currentUserInfo && (
                 <Link to="">
                   <MenuItem>
                     <Typography textAlign="center" onClick={logout}>
@@ -176,7 +176,7 @@ function Navbars() {
                 </Link>
               )}
 
-              {!currentUser && (
+              {!currentUserInfo && (
                 <Link to="auth">
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Login</Typography>

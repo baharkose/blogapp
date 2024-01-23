@@ -18,6 +18,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useAuthContext } from "../context/AuthContext";
+import UpdateModal from "../components/blog/UpdateModal";
 
 const BlogDetail = () => {
   const {
@@ -32,6 +33,28 @@ const BlogDetail = () => {
     getLikesCount,
     likeCounter,
   } = useBlogContext();
+
+  // Modal işlemleri
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedBlog, setSelectedBlog] = useState(null);
+
+  // Update fonksiyonu
+  const handleUpdate = (updatedData) => {
+    console.log(updatedData); // Burada güncelleme API çağrısı yapılabilir.
+  };
+
+  // Moda açma fonksiyonu
+  const handleOpenModal = (blog) => {
+    setSelectedBlog(blog);
+    setModalOpen(true);
+  };
+
+  // Moda kapatma fonksiyonu
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
   const { currentUser, currentUserInfo } = useAuthContext();
 
   const { id } = useParams();
@@ -41,7 +64,6 @@ const BlogDetail = () => {
   console.log(blogPost);
   console.log(currentUserInfo);
 
-  
   let foundItem = [];
   useEffect(() => {
     // Blog postunu bulma
@@ -55,7 +77,6 @@ const BlogDetail = () => {
   useEffect(() => {
     setIsUserPost(blogPost?.userId === currentUserInfo._id);
   }, [blogPost, currentUserInfo, foundItem]);
-
 
   useEffect(() => {
     const incrementViewCount = async () => {
@@ -93,7 +114,7 @@ const BlogDetail = () => {
 
   const handleLikesCount = async () => {
     await likesCount(id);
-    const updatedBlogPost = await fetchBlogPostById(blogPost._id);
+    const updatedBlogPost = await fetchBlogPostById(blogPost?._id);
     setBlogPost(updatedBlogPost);
   };
 
@@ -101,7 +122,6 @@ const BlogDetail = () => {
     return <Box> İçerik bulunamadı</Box>;
   }
 
-  const handleUpdate = () => {};
   const handleDelete = () => {};
 
   return (
@@ -111,8 +131,8 @@ const BlogDetail = () => {
           <CardMedia
             component="img"
             height="250"
-            image={blogPost.image}
-            alt={blogPost.title}
+            image={blogPost?.image}
+            alt={blogPost?.title}
           />
           <CardContent>
             <Avatar alt="User" src="/static/images/avatar.jpg" />{" "}
@@ -150,14 +170,14 @@ const BlogDetail = () => {
       </Card>
       {isUserPost && (
         <Box textAlign="center" marginTop={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleUpdate}
-            style={{ marginRight: "10px" }}
-          >
-            Update
-          </Button>
+          <Button onClick={() => handleOpenModal(foundItem)}>Edit Blog</Button>
+          <UpdateModal
+            open={modalOpen}
+            handleClose={handleCloseModal}
+            blogData={selectedBlog}
+            handleUpdate={handleUpdate}
+          />
+
           <Button variant="contained" color="secondary" onClick={handleDelete}>
             Delete
           </Button>

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useBlogContext } from "../context/BlogContext";
 import { useAuthContext } from "../context/AuthContext";
 import BlogCard from "../components/blog/BlogCard";
-import zIndex from "@mui/material/styles/zIndex";
 
 const MyBlog = () => {
   const { getBlog, blogs } = useBlogContext();
@@ -22,7 +21,7 @@ const MyBlog = () => {
 
   return (
     <>
-      {myBlogs.map((item) => (
+      {myBlogs?.map((item) => (
         <BlogCard item={item} key={item?._id} />
       ))}
     </>

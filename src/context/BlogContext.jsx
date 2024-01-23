@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from "react";
 import useAxiosPublic from "../service/useAxiosPublic";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxios from "../service/useAxios";
+import { useNavigate } from "react-router-dom";
 
 export const BlogContext = createContext();
 
@@ -21,6 +22,7 @@ export const BlogContextProvider = ({ children }) => {
   const axiosPublic = useAxiosPublic();
   const axiosToken = useAxios(currentUser?.token);
   const axiosInstance = useAxios(currentUser?.token);
+  const navigate = useNavigate();
 
   const getBlog = async () => {
     try {
@@ -119,6 +121,7 @@ export const BlogContextProvider = ({ children }) => {
     try {
       await axiosToken.post(`/blogs/`, info);
       console.log("post işlemi başarılı");
+      navigate("/");
     } catch (error) {
       console.log(error);
       console.log("post işlemi başarısız oldu");

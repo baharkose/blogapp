@@ -32,9 +32,6 @@ const BlogDetail = () => {
     likeCounter,
   } = useBlogContext();
   const { currentUser } = useAuthContext();
-  console.log(currentUser.user._id);
-
-  
 
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
@@ -82,10 +79,10 @@ const BlogDetail = () => {
     });
   };
 
-  const handleLikesCount = () => {
-    likesCount(id);
-    getLikesCount(id);
-    window.location.reload();
+  const handleLikesCount = async () => {
+    await likesCount(id);
+    const updatedBlogPost = await fetchBlogPostById(blogPost._id);
+    setBlogPost(updatedBlogPost);
   };
 
   if (!blogPost) {

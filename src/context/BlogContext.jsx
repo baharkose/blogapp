@@ -128,6 +128,7 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+
   const values = {
     blogs,
     isLoading,
@@ -140,6 +141,7 @@ export const BlogContextProvider = ({ children }) => {
     getLikesCount,
     categories,
     postBlog,
+   
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

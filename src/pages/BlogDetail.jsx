@@ -16,10 +16,22 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { useAuthContext } from "../context/AuthContext";
 
 const BlogDetail = () => {
-  const { blogs, isLoading, error, updatePost, fetchBlogPostById, getPerson } =
-    useBlogContext();
+  const {
+    blogs,
+    isLoading,
+    error,
+    updatePost,
+    fetchBlogPostById,
+    getPerson,
+    getBlog,
+    likesCount,
+  } = useBlogContext();
+  const { currentUser } = useAuthContext();
+  console.log(currentUser.user._id);
+
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
   const [viewCountUpdated, setViewCountUpdated] = useState(false);
@@ -70,6 +82,10 @@ const BlogDetail = () => {
     return <Box> İçerik bulunamadı</Box>;
   }
 
+  const handleLikesCount = () => {
+    likesCount();
+  };
+
   return (
     <div>
       <Card sx={{ width: 600, margin: "auto" }}>
@@ -97,7 +113,7 @@ const BlogDetail = () => {
           </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton aria-label="add to favorites" onClick={handleLikesCount}>
             <FavoriteIcon /> <Typography>{blogPost?.likes?.length}</Typography>
           </IconButton>
           <IconButton aria-label="comment">

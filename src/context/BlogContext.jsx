@@ -10,7 +10,7 @@ export const useBlogContext = () => {
 };
 
 export const BlogContextProvider = ({ children }) => {
-  // const [blogs, setBlogs] = useState([]);
+  const [blogsx, setBlogs] = useState([]);
   const queryClient = useQueryClient();
 
   const [currentUser, setCurrentUser] = useState(() => {
@@ -22,15 +22,15 @@ export const BlogContextProvider = ({ children }) => {
   const axiosToken = useAxios(currentUser?.token);
   const axiosInstance = useAxios(currentUser?.token);
 
-  // const getBlog = async () => {
-  //   try {
-  //     const { data } = await axiosPublic.get("/blogs/");
-  //     console.log(data);
-  //     setBlogs(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getBlog = async () => {
+    try {
+      const { data } = await axiosPublic.get("/blogs/");
+      console.log(data);
+      setBlogs(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const {
     data: blogs,
@@ -76,6 +76,16 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+  const likesCount = async (blogs) => {
+    try {
+      const userId = blogs?.data?.userId;
+      const { data } = await axiosToken.post(`/blogs/${userId}/postLike`);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const fetchBlogPostById = async (id) => {
     const response = await axiosPublic.get(`/blogs/${id}`);
     return response.data.data;
@@ -88,6 +98,8 @@ export const BlogContextProvider = ({ children }) => {
     updatePost,
     getPerson,
     fetchBlogPostById,
+    getBlog,
+    likesCount,
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

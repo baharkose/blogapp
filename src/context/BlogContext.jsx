@@ -76,11 +76,21 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
-  const likesCount = async (blogs) => {
+  const getLikesCount = async (id) => {
     try {
-      const userId = blogs?.data?.userId;
-      const { data } = await axiosToken.post(`/blogs/${userId}/postLike`);
+      const { data } = await axiosToken.get(`/blogs/${id}/getLike`);
       console.log(data);
+      console.log("çalıştı");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const likesCount = async (id) => {
+    try {
+      const { data } = await axiosToken.post(`/blogs/${id}/postLike`);
+      console.log(data);
+      getLikesCount(id);
     } catch (error) {
       console.log(error);
     }
@@ -100,6 +110,8 @@ export const BlogContextProvider = ({ children }) => {
     fetchBlogPostById,
     getBlog,
     likesCount,
+    getLikesCount,
+  
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

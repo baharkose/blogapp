@@ -28,9 +28,13 @@ const BlogDetail = () => {
     getPerson,
     getBlog,
     likesCount,
+    getLikesCount,
+    likeCounter,
   } = useBlogContext();
   const { currentUser } = useAuthContext();
   console.log(currentUser.user._id);
+
+  
 
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
@@ -78,13 +82,15 @@ const BlogDetail = () => {
     });
   };
 
+  const handleLikesCount = () => {
+    likesCount(id);
+    getLikesCount(id);
+    window.location.reload();
+  };
+
   if (!blogPost) {
     return <Box> İçerik bulunamadı</Box>;
   }
-
-  const handleLikesCount = () => {
-    likesCount();
-  };
 
   return (
     <div>
@@ -114,7 +120,8 @@ const BlogDetail = () => {
         </CardActionArea>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites" onClick={handleLikesCount}>
-            <FavoriteIcon /> <Typography>{blogPost?.likes?.length}</Typography>
+            <FavoriteIcon />
+            <Typography>{blogPost?.likes?.length}</Typography>
           </IconButton>
           <IconButton aria-label="comment">
             <CommentIcon />{" "}

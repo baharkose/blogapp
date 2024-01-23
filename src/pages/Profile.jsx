@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 
 const Profile = () => {
-  const { currentUser } = useAuthContext();
-  console.log(currentUser);
+  const { currentUserInfo } = useAuthContext();
+  console.log(currentUserInfo);
 
   return (
     <Container>
@@ -20,22 +20,22 @@ const Profile = () => {
       }}>
         <CardMedia
           style={{ height: 250, width: 250 }}
-          image={currentUser?.user?.image} // Profil fotoğrafının yolu
+          image={currentUserInfo?.image} // Profil fotoğrafının yolu
           title="Profil Fotoğrafı"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Kullanıcı Adı: {currentUser?.user?.username || "yok"}
+            Kullanıcı Adı: {currentUserInfo?.username || "yok"}
           </Typography>
           <Typography gutterBottom variant="h5" component="h2">
-            Ad Soyad: {currentUser?.user?.firstName}{" "}
-            {currentUser?.user.lastName}
+            Ad Soyad: {currentUserInfo?.firstName}{" "}
+            {currentUserInfo?.lastName}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {currentUser?.user?.bio}
+            {currentUserInfo?.bio}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            İletişim bilgileri: {currentUser?.user?.email}
+            İletişim bilgileri: {currentUserInfo?.email}
           </Typography>
         </CardContent>
       </Card>

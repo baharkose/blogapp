@@ -20,7 +20,7 @@ const pages = ["dashboard", "newblog", "about"];
 const settings = ["myblog", "profile"];
 
 function Navbars() {
-  const { currentUserInfo, logout } = useAuthContext();
+  const { currentUserInfo, logout, currentUser } = useAuthContext();
 
   // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);

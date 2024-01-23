@@ -11,6 +11,7 @@ import {
   IconButton,
   Box,
   Avatar,
+  Button,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -31,19 +32,30 @@ const BlogDetail = () => {
     getLikesCount,
     likeCounter,
   } = useBlogContext();
-  const { currentUser } = useAuthContext();
+  const { currentUser, currentUserInfo } = useAuthContext();
 
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
   const [viewCountUpdated, setViewCountUpdated] = useState(false);
 
+  console.log(blogPost);
+  console.log(currentUserInfo);
+
+  
+  let foundItem = [];
   useEffect(() => {
     // Blog postunu bulma
-    const foundItem = blogs?.data?.find((blog) => blog?._id === id);
+    foundItem = blogs?.data?.find((blog) => blog?._id === id);
     if (foundItem) {
       setBlogPost(foundItem);
     }
   }, [blogs, id]);
+
+  const [isUserPost, setIsUserPost] = useState(false);
+  useEffect(() => {
+    setIsUserPost(blogPost?.userId === currentUserInfo._id);
+  }, [blogPost, currentUserInfo, foundItem]);
+
 
   useEffect(() => {
     const incrementViewCount = async () => {
@@ -89,8 +101,11 @@ const BlogDetail = () => {
     return <Box> İçerik bulunamadı</Box>;
   }
 
+  const handleUpdate = () => {};
+  const handleDelete = () => {};
+
   return (
-    <div>
+    <>
       <Card sx={{ width: 600, margin: "auto" }}>
         <CardActionArea>
           <CardMedia
@@ -133,7 +148,22 @@ const BlogDetail = () => {
           </IconButton>
         </CardActions>
       </Card>
-    </div>
+      {isUserPost && (
+        <Box textAlign="center" marginTop={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdate}
+            style={{ marginRight: "10px" }}
+          >
+            Update
+          </Button>
+          <Button variant="contained" color="secondary" onClick={handleDelete}>
+            Delete
+          </Button>
+        </Box>
+      )}
+    </>
   );
 };
 

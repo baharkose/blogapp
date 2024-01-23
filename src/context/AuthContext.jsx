@@ -76,7 +76,9 @@ const AuthContextProvider = ({ children }) => {
       // axiosInstance ile API çağrısını yapın
       await axiosInstance.get("/auth/logout/");
       setCurrentUser(null);
+      setCurrentUserInfo(null);
       localStorage.removeItem("currentUser");
+      localStorage.removeItem("currentUserInfo");
       navigate("/");
       console.log("logout başarılı");
     } catch (error) {

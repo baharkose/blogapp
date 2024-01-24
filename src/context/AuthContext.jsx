@@ -12,7 +12,6 @@ export const useAuthContext = () => {
 };
 
 const AuthContextProvider = ({ children }) => {
-
   const navigate = useNavigate();
 
   // bununla token bilgisini aldık
@@ -20,6 +19,8 @@ const AuthContextProvider = ({ children }) => {
     const savedUser = localStorage.getItem("currentUser");
     return savedUser ? JSON.parse(savedUser) : null;
   });
+
+  const [listUser, setListUser] = useState([]);
 
   // bununla sadece user bilgisini aldık neden çünkü register ve loginde endpointler değiştiği için böyle yapıldı.
   const [currentUserInfo, setCurrentUserInfo] = useState(() => {
@@ -86,12 +87,23 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const listUsers = async () => {
+    try {
+      const { data } = await axiosInstance(`/users/`);
+      console.log(data);
+      setListUser(data);
+    } catch (error) {
+      console.log("kullanıcılar listelenemedi");
+    }
+  };
+
   const values = {
     currentUserInfo,
     currentUser,
     signIn,
     signUp,
     logout,
+    listUsers,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

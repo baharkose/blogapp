@@ -141,6 +141,7 @@ export const BlogContextProvider = ({ children }) => {
     try {
       await axiosToken.delete(`/blogs/${id}`);
       console.log("silme işlemi başarılı");
+      navigate("/myblog");
     } catch (error) {
       console.log("silme işlemi başarısız oldu");
     }

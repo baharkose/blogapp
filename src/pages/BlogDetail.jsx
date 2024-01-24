@@ -54,6 +54,8 @@ const BlogDetail = () => {
 
   const { currentUser, currentUserInfo } = useAuthContext();
 
+
+
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
   const [viewCountUpdated, setViewCountUpdated] = useState(false);
@@ -134,8 +136,13 @@ const BlogDetail = () => {
             alt={blogPost?.title}
           />
           <CardContent>
-            <Avatar alt="User" src="/static/images/avatar.jpg" />{" "}
-            {/* Profil resmi yer tutucu */}
+            <Avatar
+              alt={blogPost?.userId?.firstName}
+              src="/static/images/avatar.jpg"
+            />{" "}
+            <Typography>
+              {blogPost?.userId?.firstName} {blogPost?.userId?.lastName}{" "}
+            </Typography>
             <Typography variant="body2" color="text.secondary">
               Published Date: {formatDate(blogPost?.createdAt)}
             </Typography>

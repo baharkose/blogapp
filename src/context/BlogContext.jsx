@@ -131,6 +131,8 @@ export const BlogContextProvider = ({ children }) => {
   const updateBlog = async (id, info) => {
     try {
       await axiosToken.put(`/blogs/${id}`, info);
+      getBlog();
+      navigate("/myblog");
       console.log("update edildi");
     } catch (error) {
       console.log("update işlemi başarısız");

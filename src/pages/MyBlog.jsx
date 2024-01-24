@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
 import { useAuthContext } from "../context/AuthContext";
 import BlogCard from "../components/blog/BlogCard";
+import NoContentMessage from "../components/blog/NoContentMessage";
 
 const MyBlog = () => {
   const { blogs } = useBlogContext();
@@ -39,9 +40,11 @@ const MyBlog = () => {
 
   return (
     <>
-      {mapBlog?.map((item) => (
-        <BlogCard item={item} key={item?._id} />
-      ))}
+      {mapBlog.length === 0 ? (
+        <NoContentMessage />
+      ) : (
+        mapBlog?.map((item) => <BlogCard item={item} key={item?._id} />)
+      )}
     </>
   );
 };

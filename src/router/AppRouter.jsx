@@ -20,6 +20,7 @@ const AppRouter = () => {
   const { axiosPublic } = useAxios();
   return (
     <>
+    
       <Navbars />
       <Routes>
         <Route path="/" element={<Dashboard />} />

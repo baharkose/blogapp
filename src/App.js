@@ -10,15 +10,17 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AuthContextProvider>
-          <BlogContextProvider>
-            <AppRouter />
-          </BlogContextProvider>
-        </AuthContextProvider>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <div className="container">
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AuthContextProvider>
+            <BlogContextProvider>
+              <AppRouter />
+            </BlogContextProvider>
+          </AuthContextProvider>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </div>
   );
 }
 

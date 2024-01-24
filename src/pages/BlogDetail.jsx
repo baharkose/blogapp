@@ -27,11 +27,8 @@ const BlogDetail = () => {
     error,
     updatePost,
     fetchBlogPostById,
-    getPerson,
-    getBlog,
     likesCount,
-    getLikesCount,
-    likeCounter,
+    deleteBlog,
   } = useBlogContext();
 
   // Modal işlemleri
@@ -122,7 +119,9 @@ const BlogDetail = () => {
     return <Box> İçerik bulunamadı</Box>;
   }
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteBlog(blogPost?._id);
+  };
 
   return (
     <>

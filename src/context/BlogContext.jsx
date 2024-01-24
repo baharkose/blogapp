@@ -137,6 +137,15 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+  const deleteBlog = async (id) => {
+    try {
+      await axiosToken.delete(`/blogs/${id}`);
+      console.log("silme işlemi başarılı");
+    } catch (error) {
+      console.log("silme işlemi başarısız oldu");
+    }
+  };
+
   const values = {
     blogs,
     isLoading,
@@ -150,6 +159,7 @@ export const BlogContextProvider = ({ children }) => {
     categories,
     postBlog,
     updateBlog,
+    deleteBlog,
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

@@ -16,36 +16,35 @@ const Dashboard = () => {
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
+
   // Toplam sayfa sayısını hesapla
   const pageCount = Math.ceil((blogs?.data?.length || 0) / postsPerPage);
-  if (isLoading)
+  if (isLoading) {
     return (
-      <div>
-        {" "}
-        <Stack
-          flex
-          width={"80%"}
+      <Stack
+        flex
+        width={"80%"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        maxWidth="lg"
+        margin="auto"
+        marginTop={4}
+      >
+        <Grid
+          container
+          spacing={3}
           alignItems={"center"}
           justifyContent={"center"}
-          maxWidth="xl"
-          margin="auto"
-          marginTop={4}
         >
-          <Grid
-            container
-            spacing={3}
-            alignItems={"center"}
-            justifyContent={"center"}
-          >
-            {currentPosts?.map((item, index) => (
-              <Grid item xs={12} sm={6} md={6} lg={4} xl={3} key={index}>
-                <BlogCardSkeloton />
-              </Grid>
-            ))}
-          </Grid>
-        </Stack>
-      </div>
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
+              <BlogCardSkeloton loading={isLoading} />
+            </Grid>
+          ))}
+        </Grid>
+      </Stack>
     );
+  }
   if (error) return <div>Error loading blogs</div>;
   return (
     <>

@@ -147,6 +147,15 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+  const submitComment = async (info) => {
+    try {
+      await axiosToken.post(`/comments/`, info);
+      console.log("comment işlemi başarılı");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const values = {
     blogs,
     isLoading,
@@ -161,6 +170,7 @@ export const BlogContextProvider = ({ children }) => {
     postBlog,
     updateBlog,
     deleteBlog,
+    submitComment,
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

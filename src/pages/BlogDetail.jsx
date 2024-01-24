@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
+import { useAuthContext } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -17,8 +18,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { useAuthContext } from "../context/AuthContext";
-import UpdateModal from "../components/blog/UpdateModal";
+
 import {
   Dialog,
   DialogTitle,
@@ -32,6 +32,7 @@ import {
 } from "@mui/material";
 
 import CommentForm from "../components/blog/CommentForm";
+import UpdateModal from "../components/blog/UpdateModal";
 
 const BlogDetail = () => {
   const {
@@ -49,14 +50,6 @@ const BlogDetail = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
 
-  const CommentsDialog = ({
-    open,
-    comments,
-    handleClose,
-    handleCommentSubmit,
-  }) => {
-    const [newComment, setNewComment] = useState("");
-  };
 
   // Update fonksiyonu
   const handleUpdate = (updatedData) => {
@@ -78,8 +71,7 @@ const BlogDetail = () => {
 
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
-  const [viewCountUpdated, setViewCountUpdated] = useState(false);
-  const [newComment, setNewComment] = useState("");
+
   const [commentsOpen, setCommentsOpen] = useState(false);
 
   console.log(blogPost);
@@ -147,19 +139,12 @@ const BlogDetail = () => {
     deleteBlog(blogPost?._id);
   };
 
-  // comments alanı
-
   const handleCommentsClick = () => {
     setCommentsOpen(true);
   };
 
   const handleCloseComments = () => {
     setCommentsOpen(false);
-  };
-
-  const handleCommentSubmit = () => {
-    console.log(newComment); // Handle the comment submission here
-    setNewComment("");
   };
 
   return (
@@ -212,71 +197,7 @@ const BlogDetail = () => {
         </CardActions>
 
         {/* <CommentForm/> */}
-        {commentsOpen && (
-          <Box margin={2}>
-            <Typography variant="h6">Comments</Typography>
-
-            <TextField
-              label="New Comment"
-              multiline
-              rows={4}
-              variant="outlined"
-              fullWidth
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              margin="normal"
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleCommentSubmit}
-            >
-              Submit Comment
-            </Button>
-            <List>
-              {blogPost?.comments?.map((comment, index) => (
-                <React.Fragment key={index}>
-                  <ListItem alignItems="flex-start">
-                    <ListItemText
-                      primary={`${comment?.userId?.firstName} ${comment?.userId?.lastName}`}
-                      secondary={
-                        <>
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            color="textPrimary"
-                          >
-                            {comment?.comment}
-                          </Typography>
-                          {" - "}
-                          <Typography
-                            component="span"
-                            variant="body2"
-                            color="textSecondary"
-                          >
-                            {new Date(comment.updatedAt).toLocaleDateString(
-                              "tr-TR",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            )}
-                          </Typography>
-                        </>
-                      }
-                    />
-                  </ListItem>
-                  {index < blogPost.comments.length - 1 && (
-                    <Divider variant="inset" component="li" />
-                  )}
-                </React.Fragment>
-              ))}
-            </List>
-          </Box>
-        )}
+        {commentsOpen && <CommentForm blogPost={blogPost} />}
       </Card>
 
       {isUserPost && (

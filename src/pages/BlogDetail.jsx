@@ -18,19 +18,6 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import CommentIcon from "@mui/icons-material/Comment";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  List,
-  ListItem,
-  ListItemText,
-  TextField,
-  Divider,
-} from "@mui/material";
-
 import CommentForm from "../components/blog/CommentForm";
 import UpdateModal from "../components/blog/UpdateModal";
 
@@ -49,11 +36,11 @@ const BlogDetail = () => {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
-
+  const [isLiked, setIsLiked] = useState(false);
 
   // Update fonksiyonu
   const handleUpdate = (updatedData) => {
-    console.log(updatedData); // Burada güncelleme API çağrısı yapılabilir.
+    console.log(updatedData);
   };
 
   // Moda açma fonksiyonu
@@ -126,6 +113,7 @@ const BlogDetail = () => {
   };
 
   const handleLikesCount = async () => {
+    setIsLiked(true);
     await likesCount(id);
     const updatedBlogPost = await fetchBlogPostById(blogPost?._id);
     setBlogPost(updatedBlogPost);
@@ -179,7 +167,11 @@ const BlogDetail = () => {
           </CardContent>
         </CardActionArea>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites" onClick={handleLikesCount}>
+          <IconButton
+            aria-label="add to favorites"
+            onClick={handleLikesCount}
+            sx={{ color: isLiked ? "green" : "red" }}
+          >
             <FavoriteIcon />
             <Typography>{blogPost?.likes?.length}</Typography>
           </IconButton>

@@ -13,18 +13,19 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
-import EmailIcon from '@mui/icons-material/Email';
-import PersonIcon from '@mui/icons-material/Person';
-import InfoIcon from '@mui/icons-material/Info';
+import EmailIcon from "@mui/icons-material/Email";
+import PersonIcon from "@mui/icons-material/Person";
+import InfoIcon from "@mui/icons-material/Info";
+import WorkIcon from "@mui/icons-material/Work";
 
 const Profile = () => {
   const { currentUserInfo } = useAuthContext();
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ my: 4, display: 'flex', justifyContent: 'center' }}>
+      <Box sx={{ my: 4, display: "flex", justifyContent: "center" }}>
         <Avatar
           sx={{ width: 150, height: 150 }}
           src={currentUserInfo?.image || "/default-avatar.png"}
@@ -36,11 +37,11 @@ const Profile = () => {
           <CardHeader
             title={`${currentUserInfo?.firstName} ${currentUserInfo?.lastName}`}
             subheader={`@${currentUserInfo?.username || "Kullanıcı Adı"}`}
-            titleTypographyProps={{ variant: 'h4' }}
-            subheaderTypographyProps={{ variant: 'h6' }}
+            titleTypographyProps={{ variant: "h4" }}
+            subheaderTypographyProps={{ variant: "h6" }}
             avatar={
               <Avatar
-                sx={{ bgcolor: 'primary.main' }}
+                sx={{ bgcolor: "primary.main" }}
                 src={currentUserInfo?.image || "/default-avatar.png"}
               />
             }
@@ -56,7 +57,10 @@ const Profile = () => {
                     <ListItemIcon>
                       <EmailIcon />
                     </ListItemIcon>
-                    <ListItemText primary="E-mail" secondary={currentUserInfo?.email} />
+                    <ListItemText
+                      primary="E-mail"
+                      secondary={currentUserInfo?.email}
+                    />
                   </ListItem>
                 </List>
               </Grid>
@@ -66,7 +70,10 @@ const Profile = () => {
                     <ListItemIcon>
                       <InfoIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Diğer Bilgiler" secondary="Ek bilgiler burada yer alabilir." />
+                    <ListItemText
+                      primary="Diğer Bilgiler"
+                      secondary="Ek bilgiler burada yer alabilir."
+                    />
                   </ListItem>
                 </List>
               </Grid>

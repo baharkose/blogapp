@@ -8,6 +8,7 @@ import {
   Typography,
   IconButton,
   Button,
+  Box,
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
@@ -25,17 +26,32 @@ const BlogCard = ({ item }) => {
     // başına slash koymazsan dashboard/blogdetaile gitmeye çalışıyor
   };
   return (
-    <Card sx={{ width: 345, margin: "auto" }}>
+    <Card
+      sx={{ width: { xs: 300, md: 345 }, margin: "auto", height: 400 }}
+      flex
+      justifyContent="space-between"
+    >
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
+          height="200"
           image={item.image} // Burayı gerçek resim yolunuz ile değiştirin
           alt={item.title}
-          sx={{ height: "160px", objectFit: "cover" }}
+          sx={{ height: 160, objectFit: "cover" }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 1, // Burada '3' satır sınırlaması olarak ayarlanmıştır.
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {item.title}
           </Typography>
           <Typography

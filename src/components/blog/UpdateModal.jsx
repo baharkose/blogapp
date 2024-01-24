@@ -11,12 +11,12 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
+import { useBlogContext } from "../../context/BlogContext";
 
 const UpdateModal = ({ open, handleClose, blogData, handleUpdate }) => {
   const [formData, setFormData] = useState({ ...blogData });
-
+  const { categories, updateBlog } = useBlogContext();
   useEffect(() => {
-    
     setFormData({ ...blogData });
   }, [blogData]);
 
@@ -28,8 +28,11 @@ const UpdateModal = ({ open, handleClose, blogData, handleUpdate }) => {
     }));
   };
 
-  const handleSubmit = () => {
-    handleUpdate(formData);
+  console.log(blogData);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    updateBlog(blogData?._id, formData);
     handleClose();
   };
 
@@ -58,32 +61,39 @@ const UpdateModal = ({ open, handleClose, blogData, handleUpdate }) => {
           value={formData.image}
           onChange={handleChange}
         />
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Category</InputLabel>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel id="categoryId">Category</InputLabel>
           <Select
-            name="category"
-            value={formData.category}
+            labelId="categoryId"
             label="Category"
+            name="categoryId"
+            value={formData.categoryId}
             onChange={handleChange}
+            required
           >
-            <MenuItem value="World">World</MenuItem>
-            <MenuItem value="Technology">Technology</MenuItem>
-            <MenuItem value="Lifestyle">Lifestyle</MenuItem>
-            {/* Add more categories as needed */}
+            {/* Example categories */}
+            {categories?.map((item, index) => (
+              <MenuItem key={index} value={item?._id}>
+                {item?.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
-        <FormControl fullWidth margin="normal">
-          <InputLabel>Status</InputLabel>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel id="status-label">Status</InputLabel>
           <Select
-            name="status"
-            value={formData.status}
+            labelId="status-label"
             label="Status"
+            name="isPublish"
+            value={formData.isPublish}
             onChange={handleChange}
+            required
           >
-            <MenuItem value="Published">Published</MenuItem>
-            <MenuItem value="Draft">Draft</MenuItem>
-            <MenuItem value="Archived">Archived</MenuItem>
-            {/* Add more statuses as needed */}
+            <MenuItem value="">
+              <em>Please choose...</em>
+            </MenuItem>
+            <MenuItem value="false">Draft</MenuItem>
+            <MenuItem value="true">Published</MenuItem>
           </Select>
         </FormControl>
         <TextField

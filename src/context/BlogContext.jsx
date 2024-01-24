@@ -128,6 +128,14 @@ export const BlogContextProvider = ({ children }) => {
     }
   };
 
+  const updateBlog = async (id, info) => {
+    try {
+      await axiosToken.put(`/blogs/${id}`, info);
+      console.log("update edildi");
+    } catch (error) {
+      console.log("update işlemi başarısız");
+    }
+  };
 
   const values = {
     blogs,
@@ -141,7 +149,7 @@ export const BlogContextProvider = ({ children }) => {
     getLikesCount,
     categories,
     postBlog,
-   
+    updateBlog,
   };
 
   return <BlogContext.Provider value={values}>{children}</BlogContext.Provider>;

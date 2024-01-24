@@ -174,7 +174,7 @@ const BlogDetail = () => {
           <UpdateModal
             open={modalOpen}
             handleClose={handleCloseModal}
-            blogData={selectedBlog}
+            blogData={blogPost}
             handleUpdate={handleUpdate}
           />
 

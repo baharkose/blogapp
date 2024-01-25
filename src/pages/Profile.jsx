@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import {
   Card,
@@ -14,15 +14,21 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
 } from "@mui/material";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 import InfoIcon from "@mui/icons-material/Info";
-import WorkIcon from "@mui/icons-material/Work";
+import EditIcon from "@mui/icons-material/Edit";
+import EditProfile from "../components/Profile/EditProfile";
+import EditProfileContainer from "../components/Profile/EditProfileContainer";
 
 const Profile = () => {
   const { currentUserInfo } = useAuthContext();
-
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4, display: "flex", justifyContent: "center" }}>
@@ -39,6 +45,16 @@ const Profile = () => {
             subheader={`@${currentUserInfo?.username || "Kullanıcı Adı"}`}
             titleTypographyProps={{ variant: "h4" }}
             subheaderTypographyProps={{ variant: "h6" }}
+            action={
+              <IconButton
+                aria-label="edit profile"
+                onClick={handleOpen}
+                setOpen={setOpen}
+                open={open}
+              >
+                <EditIcon />
+              </IconButton>
+            }
             avatar={
               <Avatar
                 sx={{ bgcolor: "primary.main" }}
@@ -46,6 +62,7 @@ const Profile = () => {
               />
             }
           />
+          <EditProfileContainer />
           <CardContent>
             <Typography variant="body1" paragraph>
               {currentUserInfo?.bio || "Biografi bilgisi bulunamadı."}

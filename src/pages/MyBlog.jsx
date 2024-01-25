@@ -36,11 +36,11 @@ const MyBlog = () => {
     }
   }, [blogs, currentUserInfo]);
 
-  console.log(myBlogs);
+
 
   return (
     <>
-      {mapBlog.length === 0 ? (
+      {mapBlog?.length === 0 ? (
         <NoContentMessage />
       ) : (
         mapBlog?.map((item) => <BlogCard item={item} key={item?._id} />)

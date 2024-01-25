@@ -64,36 +64,36 @@ const BlogDetail = () => {
   console.log(blogPost);
   console.log(currentUserInfo);
 
-  let foundItem = [];
-  useEffect(() => {
-    // Blog postunu bulma
-    foundItem = blogs?.data?.find((blog) => blog?._id === id);
-    if (foundItem) {
-      setBlogPost(foundItem);
-    }
-  }, [blogs, id]);
+  // let foundItem = [];
+  // useEffect(() => {
+  //   // Blog postunu bulma
+  //   foundItem = blogs?.data?.find((blog) => blog?._id === id);
+  //   if (foundItem) {
+  //     setBlogPost(foundItem);
+  //   }
+  // }, [blogs, id]);
 
-  const [isUserPost, setIsUserPost] = useState(false);
-  useEffect(() => {
-    setIsUserPost(blogPost?.userId === currentUserInfo._id);
-  }, [blogPost, currentUserInfo, foundItem]);
+  // const [isUserPost, setIsUserPost] = useState(false);
+  // useEffect(() => {
+  //   setIsUserPost();
+  // }, [blogPost, currentUserInfo]);
 
   useEffect(() => {
     const incrementViewCount = async () => {
       // update işlemi getten önce çalışmaması için (id null geldiği) için statetin içerisine veriler aktarılıp koşul oluşturuldu.
-      if (blogPost) {
-        // destrucring yapmadan
-        await updatePost(blogPost._id, {
-          countOfVisitors: blogPost.countOfVisitors + 1,
-        });
-        // aktif olarak görüntüleme sayısını görmek için seçilin idye göre çağırma get işlemi yapıldı.
-        const updatedBlogPost = await fetchBlogPostById(blogPost._id);
-        setBlogPost(updatedBlogPost);
-      }
+      // if (blogPost) {
+      // destrucring yapmadan
+      await updatePost(id, {
+        countOfVisitors: blogPost?.countOfVisitors + 1,
+      });
+      // aktif olarak görüntüleme sayısını görmek için seçilin idye göre çağırma get işlemi yapıldı.
+      const updatedBlogPost = await fetchBlogPostById(id);
+      setBlogPost(updatedBlogPost);
+      // }
     };
 
     incrementViewCount();
-  }, [blogPost?._id]);
+  }, [id]);
   // her sayfa refresh edildiğinde id geleceği için görüntüleme sayısı arttırıldı.
 
   if (isLoading) return <div>Loading...</div>;
@@ -113,7 +113,7 @@ const BlogDetail = () => {
   };
 
   const handleLikesCount = async () => {
-    setIsLiked(true);
+    setIsLiked(!isLiked);
     await likesCount(id);
     const updatedBlogPost = await fetchBlogPostById(blogPost?._id);
     setBlogPost(updatedBlogPost);
@@ -192,9 +192,9 @@ const BlogDetail = () => {
         {commentsOpen && <CommentForm blogPost={blogPost} />}
       </Card>
 
-      {isUserPost && (
+      {blogPost?.userId?._id === currentUserInfo?._id && (
         <Box textAlign="center" marginTop={2}>
-          <Button onClick={() => handleOpenModal(foundItem)}>Edit Blog</Button>
+          <Button onClick={() => handleOpenModal(blogPost)}>Edit Blog</Button>
           <UpdateModal
             open={modalOpen}
             handleClose={handleCloseModal}

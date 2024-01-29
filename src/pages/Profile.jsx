@@ -62,7 +62,7 @@ const Profile = () => {
               />
             }
           />
-          <EditProfileContainer />
+          <EditProfileContainer open={open} setOpen={setOpen} />
           <CardContent>
             <Typography variant="body1" paragraph>
               {currentUserInfo?.bio || "Biografi bilgisi bulunamadı."}

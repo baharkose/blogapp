@@ -6,7 +6,7 @@ import { Form, useFormikContext } from "formik";
 import { object, string } from "yup";
 import Modal from "@mui/material/Modal";
 
-
+// motivation commit
 export const registerSchema = object({
   username: string()
     .max(20, "Kullanıcı adı 20 karakterden az olmalıdır.")

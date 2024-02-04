@@ -20,6 +20,8 @@ const AuthContextProvider = ({ children }) => {
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
+  const axiosToken = useAxios(currentUser?.token);
+
   const [listUser, setListUser] = useState([]);
 
   // bununla sadece user bilgisini aldık neden çünkü register ve loginde endpointler değiştiği için böyle yapıldı.
@@ -97,7 +99,19 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (id, info) => {
+    try {
+      await axiosToken.put(`/users/${id}`, info);
+
+      navigate("/myprofile");
+      console.log("update edildi");
+    } catch (error) {
+      console.log("update işlemi başarısız");
+    }
+  };
+
   const values = {
+    updateProfile,
     currentUserInfo,
     currentUser,
     signIn,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
 import BlogCard from "../components/blog/BlogCard";
 import { Grid, Pagination, Box, Stack } from "@mui/material";
@@ -7,12 +7,24 @@ const Dashboard = () => {
   const { blogs, isLoading, error } = useBlogContext();
   // Sayfalama için state'ler
   const [currentPage, setCurrentPage] = useState(1);
+
+  // Veri kopyasını al ve ters çevir
+  const reversedData = [...(blogs?.data || [])].reverse();
+  console.log(reversedData);
+
   const postsPerPage = 6; // Bir sayfada kaç gönderi gösterileceğini belirleyin
   // Mevcut sayfadaki gönderileri hesapla
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = blogs?.data?.slice(indexOfFirstPost, indexOfLastPost);
+
+  let currentPosts = [];
+  if (reversedData.length > 0) {
+    currentPosts = reversedData.slice(indexOfFirstPost, indexOfLastPost); // Buradaki değişiklik dikkat edin
+    console.log(currentPosts);
+  }
+  
   // Sayfa değişikliği işlevi
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };

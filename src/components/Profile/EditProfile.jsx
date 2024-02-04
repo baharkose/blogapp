@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -44,50 +44,6 @@ export const registerSchema = object({
     .matches(/[!/[@$!%*?&]+/, "Şifre bir özel karakter içermelidir"),
 });
 
-const FileUpload = ({ name }) => {
-  const { setFieldValue } = useFormikContext();
-
-  const handleChange = (event) => {
-    const file = event.currentTarget.files[0];
-    setFieldValue(name, file);
-  };
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    pt: 2,
-    px: 4,
-    pb: 3,
-  };
-  const { currentUserInfo } = useAuthContext();
-  console.log(currentUserInfo)
-  // tatil molası ne diyelim
-  return (
-    <div>
-      <input
-        accept="image/*"
-        style={{ display: "none" }}
-        id="raised-button-file"
-        multiple
-        type="file"
-        onChange={handleChange}
-      />
-      <label htmlFor="raised-button-file">
-        <Button variant="contained" component="span">
-          Upload
-        </Button>
-      </label>
-      {name && <span>{name}</span>}
-    </div>
-  );
-};
-
 const EditProfile = ({
   values,
   handleChange,
@@ -97,9 +53,24 @@ const EditProfile = ({
   open,
   setOpen,
 }) => {
+  // const [editedUser, setEditedUser] = useState(values);
+  // console.log(editedUser)
+  const { updateProfile } = useAuthContext();
+
+  const { currentUserInfo } = useAuthContext();
+  console.log(currentUserInfo);
+  // tatil molası ne diyelim
+  // handleChange = (e) => {
+  //   setEditedUser({ ...editedUser, [e.target.name]: e.target.value });
+  // };
+
+  const handleSubmit = () => {
+    updateProfile(currentUserInfo?._id, values);
+  };
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Modal
@@ -211,7 +182,12 @@ const EditProfile = ({
                 error={touched.password && Boolean(errors.password)}
                 helperText={errors.password}
               />
-              <Button type="submit" variant="contained" size="large">
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                onClick={handleSubmit}
+              >
                 Submit
               </Button>
             </Box>

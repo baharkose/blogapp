@@ -20,12 +20,15 @@ const BlogForm = () => {
     title: "",
     image: "",
     categoryId: "",
-    isPublish: "",
+    isPublish: false,
     content: "",
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+    console.log(formData);
   };
 
   const handleSubmit = (e) => {
@@ -86,21 +89,19 @@ const BlogForm = () => {
           </Select>
         </FormControl>
 
-        <FormControl fullWidth sx={{ m: 1 }}>
-          <InputLabel id="status-label">Status</InputLabel>
+        <FormControl required sx={{ width: "100%" }} variant="filled">
+          <InputLabel id="demo-simple-select-required-label">Status</InputLabel>
           <Select
-            labelId="status-label"
-            label="Status"
+            labelId="demo-simple-select-required-label"
+            id="demo-simple-select-required"
             name="isPublish"
-            value={formData.isPublish}
+            label="Status *"
+            value={formData?.isPublish}
             onChange={handleChange}
             required
           >
-            <MenuItem value="">
-              <em>Please choose...</em>
-            </MenuItem>
-            <MenuItem value="false">Draft</MenuItem>
-            <MenuItem value="true">Published</MenuItem>
+            <MenuItem value={false}>Draft</MenuItem>
+            <MenuItem value={true}>Published</MenuItem>
           </Select>
         </FormControl>
 

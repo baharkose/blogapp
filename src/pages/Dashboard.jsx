@@ -1,36 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useBlogContext } from "../context/BlogContext";
 import BlogCard from "../components/blog/BlogCard";
 import { Grid, Pagination, Box, Stack } from "@mui/material";
 import BlogCardSkeloton from "../components/blog/BlogCardSkeloton";
+
 const Dashboard = () => {
   const { blogs, isLoading, error } = useBlogContext();
-  // Sayfalama için state'ler
   const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
+  const filteredData = blogs?.data?.filter(item => item.isPublish === true)
+  console.log(filteredData)
 
-  // Veri kopyasını al ve ters çevir
-  const reversedData = [...(blogs?.data || [])].reverse();
-  console.log(reversedData);
+  // Veriyi ters çevir ve ilk 17 elemanı atla
+  const reversedAndSkippedData = blogs?.data
+    ? [...filteredData].reverse().slice(0, -10)
+    : [];
 
-  const postsPerPage = 6; // Bir sayfada kaç gönderi gösterileceğini belirleyin
-  // Mevcut sayfadaki gönderileri hesapla
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // Sayfalama için gerekli indeks hesaplamaları
+  const indexOfFirstPost = (currentPage - 1) * postsPerPage;
+  const indexOfLastPost = indexOfFirstPost + postsPerPage;
+  const currentPosts = reversedAndSkippedData.slice(indexOfFirstPost, indexOfLastPost);
 
-  let currentPosts = [];
-  if (reversedData.length > 0) {
-    currentPosts = reversedData.slice(indexOfFirstPost, indexOfLastPost); // Buradaki değişiklik dikkat edin
-    console.log(currentPosts);
-  }
-  
-  // Sayfa değişikliği işlevi
+  const pageCount = Math.ceil(reversedAndSkippedData.length / postsPerPage);
 
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
-  // Toplam sayfa sayısını hesapla
-  const pageCount = Math.ceil((blogs?.data?.length || 0) / postsPerPage);
   if (isLoading) {
     return (
       <Stack
@@ -48,7 +44,7 @@ const Dashboard = () => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          {Array.from({ length: 6 }).map((_, index) => (
+          {Array.from({ length: postsPerPage }).map((_, index) => (
             <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
               <BlogCardSkeloton loading={isLoading} />
             </Grid>
@@ -57,7 +53,11 @@ const Dashboard = () => {
       </Stack>
     );
   }
-  if (error) return <div>Error loading blogs</div>;
+
+  if (error) {
+    return <div>Error loading blogs</div>;
+  }
+
   return (
     <>
       <Stack
@@ -75,7 +75,7 @@ const Dashboard = () => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          {currentPosts?.map((item, index) => (
+          {currentPosts.map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
               <BlogCard item={item} />
             </Grid>
@@ -86,7 +86,7 @@ const Dashboard = () => {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        marginY={4} // Sayfalama için alt ve üstten boşluk
+        marginY={4}
       >
         <Pagination
           count={pageCount}
@@ -98,4 +98,5 @@ const Dashboard = () => {
     </>
   );
 };
+
 export default Dashboard;

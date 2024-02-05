@@ -19,6 +19,8 @@ export const BlogContextProvider = ({ children }) => {
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
+  console.log(currentUser)
+
   const axiosPublic = useAxiosPublic();
   const axiosToken = useAxios(currentUser?.token);
   const axiosInstance = useAxios(currentUser?.token);
@@ -121,6 +123,7 @@ export const BlogContextProvider = ({ children }) => {
     try {
       await axiosToken.post(`/blogs/`, info);
       console.log("post işlemi başarılı");
+      console.log(info)
       navigate("/");
     } catch (error) {
       console.log(error);

@@ -110,7 +110,10 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
+
+
   const values = {
+
     updateProfile,
     currentUserInfo,
     currentUser,

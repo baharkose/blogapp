@@ -5,46 +5,53 @@ import BlogCard from "../components/blog/BlogCard";
 import NoContentMessage from "../components/blog/NoContentMessage";
 
 const MyBlog = () => {
-  const { blogs } = useBlogContext();
+  const { listMyPosts } = useBlogContext();
   const { currentUserInfo } = useAuthContext();
   const [myBlogs, setMyBlogs] = useState([]);
 
-  console.log("Blogs data:", blogs?.data);
+  // console.log("Blogs data:", blogs?.data);
   console.log(currentUserInfo);
   console.log("Current user ID:", currentUserInfo?._id);
 
   console.log(currentUserInfo);
 
-  console.log(blogs?.data);
+  // console.log(blogs?.data);
   // const [myBlogs, setMyBlogs] = useState([]);
 
   // const myBlogs = blogs?.data?.filter(
   //   (item) => item?.userId === currentUser?.user?._id
   // );
 
-  const mapBlog = blogs?.data?.filter(
-    (item) => item?.userId === currentUserInfo?._id
-  );
-  console.log(mapBlog);
+  // ! backend'in istediği endpointi kullanarak problem çözüldü
+  // const mapBlog = blogs?.data?.filter(
+  //   (item) => item?.userId === currentUserInfo?._id
+  // );
+  // console.log(mapBlog);
+
+  // useEffect(() => {
+  //   if (blogs?.data && currentUserInfo?.user) {
+  //     const filteredBlogs = blogs?.data?.filter(
+  //       (item) => item?.userId === currentUserInfo?.data?._id
+  //     );
+  //     setMyBlogs(filteredBlogs);
+  //   }
+  // }, [blogs, currentUserInfo]);
 
   useEffect(() => {
-    if (blogs?.data && currentUserInfo?.user) {
-      const filteredBlogs = blogs?.data?.filter(
-        (item) => item?.userId === currentUserInfo?.data?._id
-      );
-      setMyBlogs(filteredBlogs);
+    if (currentUserInfo?._id) {
+      console.log(listMyPosts(currentUserInfo?._id));
+      setMyBlogs(listMyPosts(currentUserInfo?._id));
     }
-  }, [blogs, currentUserInfo]);
+  }, [currentUserInfo, listMyPosts]);
 
-
-
+  console.log(myBlogs);
   return (
     <>
-      {mapBlog?.length === 0 ? (
+      {/* {myBlogs?.length === 0 ? (
         <NoContentMessage />
       ) : (
-        mapBlog?.map((item) => <BlogCard item={item} key={item?._id} />)
-      )}
+        myBlogs?.map((item) => <BlogCard item={item} key={item?._id} />)
+      )} */}
     </>
   );
 };

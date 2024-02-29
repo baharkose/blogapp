@@ -20,7 +20,7 @@ const BlogForm = () => {
     title: "",
     image: "",
     categoryId: "",
-    isPublish: false,
+    isPublish: "",
     content: "",
   });
 
@@ -89,7 +89,7 @@ const BlogForm = () => {
           </Select>
         </FormControl>
 
-        <FormControl required sx={{ width: "100%" }} variant="filled">
+        <FormControl fullWidth sx={{ m: 1 }}>
           <InputLabel id="demo-simple-select-required-label">Status</InputLabel>
           <Select
             labelId="demo-simple-select-required-label"

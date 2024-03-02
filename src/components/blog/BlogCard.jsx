@@ -27,17 +27,17 @@ const BlogCard = ({ item }) => {
   };
   return (
     <Card
-      sx={{ width: { xs: 300, md: 345 }, margin: "auto", height: 400 }}
+      // sx={{ width: { xs: 300, md: 345 }, margin: "auto", height: 400 }}
       flex
       justifyContent="space-between"
     >
       <CardActionArea>
         <CardMedia
           component="img"
-          height="200"
-          image={item.image} // Burayı gerçek resim yolunuz ile değiştirin
+          height="300"
+          image={item.image} 
           alt={item.title}
-          sx={{ height: 240, objectFit: "cover" }}
+          sx={{ height: 300, objectFit: "cover" }}
         />
         <CardContent>
           <Typography

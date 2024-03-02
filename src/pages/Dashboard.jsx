@@ -8,8 +8,8 @@ const Dashboard = () => {
   const { blogs, isLoading, error } = useBlogContext();
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
-  const filteredData = blogs?.data?.filter(item => item.isPublish === true)
-  console.log(filteredData)
+  const filteredData = blogs?.data?.filter((item) => item.isPublish === true);
+  console.log(filteredData);
 
   // Veriyi ters çevir ve ilk 17 elemanı atla
   const reversedAndSkippedData = blogs?.data
@@ -19,7 +19,10 @@ const Dashboard = () => {
   // Sayfalama için gerekli indeks hesaplamaları
   const indexOfFirstPost = (currentPage - 1) * postsPerPage;
   const indexOfLastPost = indexOfFirstPost + postsPerPage;
-  const currentPosts = reversedAndSkippedData.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = reversedAndSkippedData.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
   const pageCount = Math.ceil(reversedAndSkippedData.length / postsPerPage);
 
@@ -75,7 +78,13 @@ const Dashboard = () => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          {currentPosts.map((item, index) => (
+          {/* İlk postun tüm genişliği */}
+          <Grid item xs={12} key={currentPosts[0].id}>
+            <BlogCard item={currentPosts[0]} />
+          </Grid>
+          
+          {/* Diğer postlar varsayılan grid düzeninde */}
+          {currentPosts.slice(1).map((item, index) => (
             <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
               <BlogCard item={item} />
             </Grid>

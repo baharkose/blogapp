@@ -3,6 +3,7 @@ import { useBlogContext } from "../context/BlogContext";
 import { useAuthContext } from "../context/AuthContext";
 import BlogCard from "../components/blog/BlogCard";
 import NoContentMessage from "../components/blog/NoContentMessage";
+import { Grid } from "@mui/material";
 
 const MyBlog = () => {
   const { listMyPosts } = useBlogContext();
@@ -29,7 +30,18 @@ const MyBlog = () => {
       {myBlogs?.length === 0 ? (
         <NoContentMessage />
       ) : (
-        myBlogs?.map((item) => <BlogCard item={item} key={item?._id} />)
+        <Grid
+          container
+          // spacing={2}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          {myBlogs?.map((item, index) => (
+            <Grid item xs={12} sm={6} lg={4} key={index}>
+              <BlogCard item={item} key={item?._id} />
+            </Grid>
+          ))}
+        </Grid>
       )}
     </>
   );

@@ -9,49 +9,28 @@ const MyBlog = () => {
   const { currentUserInfo } = useAuthContext();
   const [myBlogs, setMyBlogs] = useState([]);
 
-  // console.log("Blogs data:", blogs?.data);
-  console.log(currentUserInfo);
-  console.log("Current user ID:", currentUserInfo?._id);
-
-  console.log(currentUserInfo);
-
-  // console.log(blogs?.data);
-  // const [myBlogs, setMyBlogs] = useState([]);
-
-  // const myBlogs = blogs?.data?.filter(
-  //   (item) => item?.userId === currentUser?.user?._id
-  // );
-
-  // ! backend'in istediği endpointi kullanarak problem çözüldü
-  // const mapBlog = blogs?.data?.filter(
-  //   (item) => item?.userId === currentUserInfo?._id
-  // );
-  // console.log(mapBlog);
-
-  // useEffect(() => {
-  //   if (blogs?.data && currentUserInfo?.user) {
-  //     const filteredBlogs = blogs?.data?.filter(
-  //       (item) => item?.userId === currentUserInfo?.data?._id
-  //     );
-  //     setMyBlogs(filteredBlogs);
-  //   }
-  // }, [blogs, currentUserInfo]);
-
   useEffect(() => {
+    const fetchMyPosts = async () => {
+      try {
+        const posts = await listMyPosts(currentUserInfo?._id);
+        setMyBlogs(posts);
+      } catch (error) {
+        console.error("Error fetching my posts:", error);
+      }
+    };
+
     if (currentUserInfo?._id) {
-      console.log(listMyPosts(currentUserInfo?._id));
-      setMyBlogs(listMyPosts(currentUserInfo?._id));
+      fetchMyPosts();
     }
   }, [currentUserInfo, listMyPosts]);
 
-  console.log(myBlogs);
   return (
     <>
-      {/* {myBlogs?.length === 0 ? (
+      {myBlogs?.length === 0 ? (
         <NoContentMessage />
       ) : (
         myBlogs?.map((item) => <BlogCard item={item} key={item?._id} />)
-      )} */}
+      )}
     </>
   );
 };

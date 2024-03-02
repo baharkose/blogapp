@@ -163,10 +163,12 @@ export const BlogContextProvider = ({ children }) => {
 
   const listMyPosts = async (userId) => {
     try {
-      await axiosToken.get(`/blogs?author=${userId}`);
-      console.log("myblog listelendi");
+      const response = await axiosToken.get(`/blogs?author=${userId}`);
+      console.log("myblog listelendi", response.data.data);
+      const data = response.data.data;
+      return data
     } catch (error) {
-      console.log("myblogs listelenemedi");
+      console.log("myblogs listelenemedi", error);
     }
   };
 

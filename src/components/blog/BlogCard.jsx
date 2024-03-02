@@ -37,7 +37,7 @@ const BlogCard = ({ item }) => {
           height="200"
           image={item.image} // Burayı gerçek resim yolunuz ile değiştirin
           alt={item.title}
-          sx={{ height: 160, objectFit: "cover" }}
+          sx={{ height: 240, objectFit: "cover" }}
         />
         <CardContent>
           <Typography

@@ -64,8 +64,10 @@ export const BlogContextProvider = ({ children }) => {
     try {
       await axiosToken.put(`/blogs/${id}`, info);
       queryClient.invalidateQueries(["blogs"]);
+      toastSuccessNotify("Gönderi Güncellendi");
     } catch (error) {
       console.error("Error updating post:", error);
+      toastErrorNotify("Post Cüncellenemedi ", error);
     }
   };
 
@@ -124,11 +126,13 @@ export const BlogContextProvider = ({ children }) => {
     try {
       await axiosToken.post(`/blogs/`, info);
       console.log("post işlemi başarılı");
+      toastSuccessNotify("Post işlemi başarılı");
+
       console.log(info);
       navigate("/");
     } catch (error) {
       console.log(error);
-      console.log("post işlemi başarısız oldu");
+      toastErrorNotify("Post işlemi başarısız oldu ", error);
     }
   };
 
@@ -137,9 +141,12 @@ export const BlogContextProvider = ({ children }) => {
       await axiosToken.put(`/blogs/${id}`, info);
       getBlog();
       navigate("/myblog");
+      toastSuccessNotify("üncellendi");
+
       console.log("update edildi");
     } catch (error) {
       console.log("update işlemi başarısız");
+      toastErrorNotify("Güncelleme işlemi başarısız oldu ", error);
     }
   };
 
@@ -147,15 +154,18 @@ export const BlogContextProvider = ({ children }) => {
     try {
       await axiosToken.delete(`/blogs/${id}`);
       console.log("silme işlemi başarılı");
+      toastSuccessNotify("Silindi");
       navigate("/myblog");
     } catch (error) {
       console.log("silme işlemi başarısız oldu");
+      toastErrorNotify("Silme işlemi başarısız oldu", error);
     }
   };
 
   const submitComment = async (info) => {
     try {
       await axiosToken.post(`/comments/`, info);
+
       console.log("comment işlemi başarılı");
     } catch (error) {
       console.log(error);
@@ -167,7 +177,7 @@ export const BlogContextProvider = ({ children }) => {
       const response = await axiosToken.get(`/blogs?author=${userId}`);
       console.log("myblog listelendi", response.data.data);
       const data = response.data.data;
-      return data
+      return data;
     } catch (error) {
       console.log("myblogs listelenemedi", error);
     }

@@ -4,7 +4,7 @@ import axios from "axios";
 import { useContext } from "react";
 import useAxios from "../service/useAxios";
 import useAxiosPublic from "../service/useAxiosPublic";
-
+import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
 
 export const AuthContext = createContext();
 
@@ -57,9 +57,11 @@ const AuthContextProvider = ({ children }) => {
       setCurrentUser(data);
       setCurrentUserInfo(data.user);
       navigate("/");
+      toastSuccessNotify("Login işlemi başarılı");
       console.log("login başarılı");
     } catch (error) {
       console.log(error);
+      toastSuccessNotify("Login işlemi başarısız");
     }
   };
 
@@ -70,8 +72,10 @@ const AuthContextProvider = ({ children }) => {
       setCurrentUserInfo(data.data);
       navigate("/");
       console.log("kayıt başarılı");
+      toastSuccessNotify("Kayıt işlemi başarılı");
     } catch (error) {
       console.log(error);
+      toastSuccessNotify("Kayıt işlemi başarısız");
     }
   };
   const logout = async () => {
@@ -85,8 +89,10 @@ const AuthContextProvider = ({ children }) => {
       localStorage.removeItem("currentUserInfo");
       navigate("/");
       console.log("logout başarılı");
+      toastSuccessNotify("Logout işlemi başarılı");
     } catch (error) {
       console.error("Logout sırasında hata oluştu:", error);
+      toastErrorNotify("Logout sırasında hata oluştu:", error);
     }
   };
 
@@ -106,15 +112,14 @@ const AuthContextProvider = ({ children }) => {
 
       navigate("/myprofile");
       console.log("update edildi");
+      toastSuccessNotify("update edildi");
     } catch (error) {
       console.log("update işlemi başarısız");
+      toastErrorNotify("Update işlemi başarısız ", error);
     }
   };
 
-
-
   const values = {
-
     updateProfile,
     currentUserInfo,
     currentUser,

@@ -8350,6 +8350,18 @@ react-scripts@5.0.1:
   optionalDependencies:
     fsevents "^2.3.2"
 
+react-toast-notification@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-toast-notification/-/react-toast-notification-1.1.4.tgz#c536ba1a55ff595348d0ff52838e04368a818685"
+  integrity sha512-xcIUO5TfpLCbMTTmvH2Z/u4Z0+qNXEMShINKLyY6vBbGxf+smtsF/XGptpYmtz3oR9fjjxSuL5czUMHAG5zhLw==
+
+react-toastify@^10.0.4:
+  version "10.0.4"
+  resolved "https://registry.yarnpkg.com/react-toastify/-/react-toastify-10.0.4.tgz#6ecdbbf923a07fc45850e69b0566efc7bf733283"
+  integrity sha512-etR3RgueY8pe88SA67wLm8rJmL1h+CLqUGHuAoNsseW35oTGJEri6eBTyaXnFKNQ80v/eO10hBYLgz036XRGgA==
+  dependencies:
+    clsx "^2.1.0"
+
 react-transition-group@^4.4.5:
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.5.tgz#e53d4e3f3344da8521489fbef8f2581d42becdd1"

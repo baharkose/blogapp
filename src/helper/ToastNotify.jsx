@@ -1,5 +1,5 @@
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export const toastWarnNotify = (msg) => {
   toast.warn(msg, {

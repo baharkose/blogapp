@@ -27,6 +27,8 @@ const BlogCard = ({ item }) => {
   };
   return (
     <Card
+      // ovalliği kaldırmak için
+      square
       // sx={{ width: { xs: 300, md: 345 }, margin: "auto", height: 400 }}
       flex
       justifyContent="space-between"
@@ -35,7 +37,7 @@ const BlogCard = ({ item }) => {
         <CardMedia
           component="img"
           height="300"
-          image={item.image} 
+          image={item.image}
           alt={item.title}
           sx={{ height: 300, objectFit: "cover" }}
         />

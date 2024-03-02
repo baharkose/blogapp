@@ -22,7 +22,6 @@ const settings = ["myblog", "profile"];
 function Navbars() {
   const { currentUserInfo, logout, currentUser } = useAuthContext();
 
-  // console.log(currentUser.user.image);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -42,8 +41,13 @@ function Navbars() {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" elevation={0}>
+      <Container
+        maxWidth="md"
+        sx={{
+          marginTop: "60px",
+        }}
+      >
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
@@ -64,13 +68,23 @@ function Navbars() {
             LOGO
           </Typography>
 
-{/* butonları ortaya almak için box tanımladık ve flex yapısını kullandık */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             {pages.map((page, index) => (
-              <Link to={page} key={index}>
+              <Link to={page} key={index} style={{ textDecoration: "none" }}>
                 <Button
                   onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{
+                    my: 2,
+                    color: "black",
+                    display: "block",
+                    alignItems: "flex-end",
+                  }}
                 >
                   {page}
                 </Button>
@@ -102,15 +116,24 @@ function Navbars() {
             >
               {currentUserInfo &&
                 settings.map((setting, index) => (
-                  <Link to={setting} key={index}>
+                  <Link
+                    to={setting}
+                    key={index}
+                    style={{ textDecoration: "none" }}
+                  >
                     <MenuItem onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                      <Typography
+                        textAlign="center"
+                        sx={{ textTransform: "capitalize" }}
+                      >
+                        {setting}
+                      </Typography>
                     </MenuItem>
                   </Link>
                 ))}
 
               {currentUserInfo && (
-                <Link to="">
+                <Link to="" style={{ textDecoration: "none" }}>
                   <MenuItem>
                     <Typography textAlign="center" onClick={logout}>
                       Logout
@@ -120,7 +143,7 @@ function Navbars() {
               )}
 
               {!currentUserInfo && (
-                <Link to="auth">
+                <Link to="auth" style={{ textDecoration: "none" }}>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Login</Typography>
                   </MenuItem>

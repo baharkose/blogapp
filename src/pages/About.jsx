@@ -11,23 +11,21 @@ const About = () => {
           bgcolor: "#fbf6f3",
         }}
       >
-        
         <Typography variant="h4" gutterBottom>
-          About
+          About Me
         </Typography>
         <Typography variant="body1">Hello, my name is Bahar.</Typography>
       </Box>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Paper elevation={3} sx={{ p: 2 }}>
+          <Paper sx={{ p: 2, bgcolor: "#fbf6f3", marginBottom: 2 }}>
             <Typography variant="h6">Eğitim</Typography>
             <Typography variant="body1">
               Gazi & Yildiz Technic University - Software Developer
             </Typography>
           </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper elevation={3} sx={{ p: 2 }}>
+
+          <Paper sx={{ p: 4, bgcolor: "#fbf6f3" }}>
             <Typography variant="h6">Experience</Typography>
             <Typography variant="body1">
               Hello, my name is Bahar. I am a proud alumnus of Gazi University,

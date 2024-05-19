@@ -1,3 +1,12 @@
+:root {
+  --primary-color: #f1f0eb;
+  --secondary-color: #4359a3;
+  --thirdly-color: #f13112;
+  --fourtly-color: #797000;
+  --fively-color: #c37f00;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +15,8 @@
 /* Ana konteyner için */
 html,
 body {
+  font-family: "Mulish", sans-serif;
+  background-color: #f1f0eb;
   height: 100%;
   margin: 0;
 }

@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useEffect } from "react";
 
-const pages = ["dashboard", "newblog", "about"];
+const pages = ["home", "blogs", "newblog", "about"];
 const settings = ["myblog", "profile"];
 
 function Navbars() {
@@ -41,7 +41,8 @@ function Navbars() {
   };
 
   return (
-    <AppBar position="static" elevation={0}>
+    // shahow is elevation
+    <AppBar position="static" elevation={0} sx={{ bgcolor: "#4157a2" }}>
       <Container
         maxWidth="md"
         sx={{
@@ -58,7 +59,6 @@ function Navbars() {
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
@@ -76,9 +76,14 @@ function Navbars() {
             }}
           >
             {pages.map((page, index) => (
-              <Link to={page} key={index} style={{ textDecoration: "none" }}>
+              <Link
+                to={page}
+                key={index}
+                style={{ textDecoration: "none", fontFamily: "Mulish" }}
+              >
                 <Button
                   onClick={handleCloseNavMenu}
+                  style={{ textDecoration: "none", fontFamily: "Mulish" }}
                   sx={{
                     my: 2,
                     color: "black",

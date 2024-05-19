@@ -14,17 +14,18 @@ import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import useAxios from "../service/useAxios";
 import { useAuthContext } from "../context/AuthContext";
+import Home from "../pages/Home";
 
 const AppRouter = () => {
   const { currentUser } = useAuthContext();
   const { axiosPublic } = useAxios();
   return (
     <>
-    
       <Navbars />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
+        <Route path="home" element={<Home />} />
+        <Route path="blogs" element={<Dashboard />} />
         <Route path="about" element={<About />} />
         {/* <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} /> */}

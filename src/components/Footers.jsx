@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Container, Typography, Link } from "@mui/material";
 
-
 const Footers = () => {
   return (
-    <div className="footer">
-      <Box sx={{ bgcolor: "primary.main", color: "white", p: 3, mt: "auto" }}>
+    <div className="footer"
+    style={{}}
+    >
+      <Box sx={{ bgcolor: "#FBF6F3" }}>
         <Container maxWidth="sm">
           <Typography variant="body1" align="center">
             © 2024 Bahar Kose. Tüm hakları saklıdır.

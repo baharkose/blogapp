@@ -8,10 +8,24 @@ function Home() {
       <Container
         maxWidth="lg"
         sx={{
-          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          paddingBottom: 0, // Ekran boyutlarına göre alt boşluk ayarı
+          marginBottom: 0,
         }}
       >
-        <img src={Background} width={1000} />
+        <img
+          src={Background}
+          width={1000}
+          style={{
+            width: "100%", // Resmin genişliği ebeveyn öğenin genişliğine göre ayarlanacak
+            height: "auto", // Resmin orantılı olarak boyutunu korur
+            maxHeight: "100%",
+            maxWidth: "100%", // Resmin eni, ebeveyn öğenin eni kadar olacak şekilde ayarlanır
+          }}
+        />
       </Container>
     </>
   );

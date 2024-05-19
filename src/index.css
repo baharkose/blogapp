@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #FBF6F3;
+  --primary-color: #fbf6f3;
   --secondary-color: #4359a3;
   --thirdly-color: #f13112;
   --fourtly-color: #797000;
@@ -16,7 +16,7 @@
 html,
 body {
   font-family: "Mulish", sans-serif;
-  background-color: #FBF6F3;
+  background-color: #fbf6f3;
   height: 100%;
   margin: 0;
 }
@@ -27,8 +27,7 @@ body {
   padding-bottom: 60px;
 }
 .footer {
-  position: absolute;
-  bottom: 0;
+  margin-top: 100px;
   width: 100%;
   height: 60px; /* Footer yüksekliği */
 }

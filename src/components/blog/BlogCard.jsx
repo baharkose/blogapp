@@ -33,10 +33,10 @@ const BlogCard = ({ item }) => {
       flex
       justifyContent="space-between"
       sx={{
-        bgcolor:"#fbf6f3",
+        bgcolor: "#fbf6f3",
       }}
     >
-      <CardActionArea>
+      <CardActionArea onClick={handleReadMore}>
         <CardMedia
           component="img"
           height="300"

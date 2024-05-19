@@ -32,6 +32,9 @@ const BlogCard = ({ item }) => {
       // sx={{ width: { xs: 300, md: 345 }, margin: "auto", height: 400 }}
       flex
       justifyContent="space-between"
+      sx={{
+        bgcolor:"#fbf6f3",
+      }}
     >
       <CardActionArea>
         <CardMedia

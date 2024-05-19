@@ -31,15 +31,21 @@ const Profile = () => {
   };
   return (
     <Container maxWidth="md">
-      <Box sx={{ my: 4, display: "flex", justifyContent: "center" }}>
+      <Box
+        sx={{
+          my: 4,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <Avatar
           sx={{ width: 150, height: 150 }}
           src={currentUserInfo?.image || "/default-avatar.png"}
           alt="Profil Fotoğrafı"
         />
       </Box>
-      <Paper sx={{ p: 2 }}>
-        <Card>
+      <Paper sx={{ p: 2, bgcolor: "#fbf6f3" }}>
+        <Card sx={{ bgcolor: "#fbf6f3" }}>
           <CardHeader
             title={`${currentUserInfo?.firstName} ${currentUserInfo?.lastName}`}
             subheader={`@${currentUserInfo?.username || "Kullanıcı Adı"}`}

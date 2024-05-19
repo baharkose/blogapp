@@ -4,12 +4,14 @@ import { Container, Typography, Box, Paper, Grid, Avatar } from "@mui/material";
 const About = () => {
   return (
     <Container maxWidth="lg">
-      <Box my={4} textAlign="center">
-        <Avatar
-          alt="Profil Resmi"
-          src="/profile-pic.jpg" // Profil resminizin yolu
-          sx={{ width: 100, height: 100, mx: "auto" }}
-        />
+      <Box
+        my={4}
+        textAlign="center"
+        sx={{
+          bgcolor: "#fbf6f3",
+        }}
+      >
+        
         <Typography variant="h4" gutterBottom>
           About
         </Typography>

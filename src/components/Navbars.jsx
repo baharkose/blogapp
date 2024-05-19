@@ -11,7 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import Logo from "../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 import { useEffect } from "react";
@@ -42,32 +42,12 @@ function Navbars() {
 
   return (
     // shahow is elevation
-    <AppBar position="static" elevation={0} sx={{ bgcolor: "#4157a2" }}>
+    <AppBar position="static" elevation={0} sx={{ bgcolor: "#FBF6F3" }}>
       <Container
         maxWidth="md"
-        sx={{
-          marginTop: "60px",
-        }}
       >
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            LOGO
-          </Typography>
-
+          <img src={Logo} width={220}/>
           <Box
             sx={{
               flexGrow: 1,

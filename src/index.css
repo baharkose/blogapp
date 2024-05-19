@@ -1,5 +1,5 @@
 :root {
-  --primary-color: #f1f0eb;
+  --primary-color: #FBF6F3;
   --secondary-color: #4359a3;
   --thirdly-color: #f13112;
   --fourtly-color: #797000;
@@ -16,7 +16,7 @@
 html,
 body {
   font-family: "Mulish", sans-serif;
-  background-color: #f1f0eb;
+  background-color: #FBF6F3;
   height: 100%;
   margin: 0;
 }

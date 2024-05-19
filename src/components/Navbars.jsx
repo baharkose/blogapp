@@ -1,27 +1,30 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
-import Logo from "../assets/logo.svg";
-import { Link } from "react-router-dom";
-import { useAuthContext } from "../context/AuthContext";
-import { useEffect } from "react";
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import Logo from '../assets/logo.svg';
+import { Link } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-const pages = ["home", "blogs", "newblog", "about"];
-const settings = ["myblog", "profile"];
+const pages = ['home', 'blogs', 'newblog', 'about'];
+const settings = ['myblog', 'profile'];
 
 function Navbars() {
-  const { currentUserInfo, logout, currentUser } = useAuthContext();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
+  const { currentUserInfo, logout } = useAuthContext();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -41,60 +44,92 @@ function Navbars() {
   };
 
   return (
-    // shahow is elevation
     <AppBar position="static" elevation={0} sx={{ bgcolor: "#FBF6F3" }}>
-      <Container
-        maxWidth="md"
-      >
+      <Container maxWidth="md">
         <Toolbar disableGutters>
-          <img src={Logo} width={220}/>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleOpenNavMenu}
+            sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
+          {isMobile ? null : <img src={Logo} alt="Logo" width={220} />}
           <Box
             sx={{
               flexGrow: 1,
-              display: "flex",
-              justifyContent: "center",
+              display: { xs: 'flex', md: 'none' },
+            }}
+          >
+            <Menu
+              id="menu-appbar-responsive"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
+              }}
+            >
+              {pages.map((page, index) => (
+                <MenuItem key={index} onClick={handleCloseNavMenu}>
+                  <Link to={page} style={{ textDecoration: 'none' }}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </Link>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'none', md: 'flex' },
+              justifyContent: 'center',
             }}
           >
             {pages.map((page, index) => (
               <Link
                 to={page}
                 key={index}
-                style={{ textDecoration: "none", fontFamily: "Mulish" }}
+                style={{ textDecoration: 'none' }}
               >
                 <Button
                   onClick={handleCloseNavMenu}
-                  style={{ textDecoration: "none", fontFamily: "Mulish" }}
-                  sx={{
-                    my: 2,
-                    color: "black",
-                    display: "block",
-                    alignItems: "flex-end",
-                  }}
+                  sx={{ my: 2, color: 'black', display: 'block' }}
                 >
                   {page}
                 </Button>
               </Link>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={currentUserInfo?.image} />
+                <Avatar alt="User Profile" src={currentUserInfo?.image} />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: "45px" }}
+              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
+                vertical: 'top',
+                horizontal: 'right',
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
@@ -104,31 +139,27 @@ function Navbars() {
                   <Link
                     to={setting}
                     key={index}
-                    style={{ textDecoration: "none" }}
+                    style={{ textDecoration: 'none' }}
                   >
                     <MenuItem onClick={handleCloseUserMenu}>
                       <Typography
                         textAlign="center"
-                        sx={{ textTransform: "capitalize" }}
+                        sx={{ textTransform: 'capitalize' }}
                       >
                         {setting}
                       </Typography>
                     </MenuItem>
                   </Link>
                 ))}
-
               {currentUserInfo && (
-                <Link to="" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                    <Typography textAlign="center" onClick={logout}>
-                      Logout
-                    </Typography>
+                <Link to="" style={{ textDecoration: 'none' }}>
+                  <MenuItem onClick={logout}>
+                    <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
                 </Link>
               )}
-
               {!currentUserInfo && (
-                <Link to="auth" style={{ textDecoration: "none" }}>
+                <Link to="auth" style={{ textDecoration: 'none' }}>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">Login</Typography>
                   </MenuItem>
